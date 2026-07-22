@@ -1,4 +1,4 @@
-# ELDERRUBBER - A MANIFESTO OF LATEXISTENTIALISM FOR SENIORS
+# ElderRubber - A MANIFESTO OF LATEXISTENTIALISM FOR SENIORS
 
 > *A Declaration of Intentional Being Through RubberNauting*
 
