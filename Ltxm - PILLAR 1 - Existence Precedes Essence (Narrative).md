@@ -2,13 +2,19 @@
 
 *A Narrative Exploration of Self-Creation Through RubberNauting*
 
- (c) 2026 by AtaraxiA under Creative Commons CC BY-SA license
+© 2026 by AtaraxiA under Creative Commons CC BY-SA 4.0 license
+
+---
+
+**SERIES: LATEXISTENTIALISM - THE PRACTICE OF THE FOUR PILLARS**
+
+Manifesto | **Pillar I** | Pillar II | Pillar III | Pillar IV | Glossary | Reading List
 
 ---
 
 ## **🎭 CAVEAT**
 
-*These writings are intended for individuals who already possess a rubber fetish. If you do not share this orientation, you will likely find these documents confusing, irrelevant, or uninteresting. You are not the intended audience, and your time may be better spent elsewhere.*
+*These writings are intended primarily for elderly individuals who already possess a rubber fetish, though younger Rubberists may find it useful. If you do not share this orientation, you will likely find these documents confusing, irrelevant, or uninteresting. You are not the intended audience, and your time may be better spent elsewhere.*
 
 ---
 
@@ -24,7 +30,7 @@ For the deep Rubberist, this canvas is not abstract. It is the body, the mind, t
 
 **Deep Rubber** is not a matter of choice—it is a **sexual orientation**, like homosexuality. Either you have it, or you don't. It manifests at an early age and is rare. **Casual Rubber** is distinct: acquired, more common, and best understood as an erotic accessory rather than an orientation.
 
-*Sidebar note: "Heavy rubber" refers to garment thickness and/or is a BDSM-adjacent variant prevalent in homosexual Rubberist cultures—distinct from Deep Rubber.*
+*Footnote: "Heavy rubber" refers to a thickness-focused, BDSM-adjacent variant prevalent in homosexual cultures—distinct from the orientation-based distinction above.*
 
 This does not contradict Sartre. *Existence precedes essence* does not deny **facticity**—our concrete situation, including innate orientations. It denies we have a **predetermined essence**—a fixed purpose or meaning.
 
@@ -36,7 +42,7 @@ This distinction actually **strengthens** Pillar I: the suit reveals not a diffe
 
 ## **The Foundation: Why This Pillar Matters**
 
-Pillar I is the foundation upon which the other three pillars are built. Without it, the structure lacks stability. Without it, the other practices lack direction.
+Pillar I is the foundation upon which the other three pillars are built. Especially relevant for seniors reclaiming agency. Without it, the structure lacks stability. Without it, the other practices lack direction.
 
 Consider a house. The foundation is not the most visible part, but without it, the walls cannot stand. Similarly, Pillar I is the foundation of Latexistentialism. It is the understanding that RubberNauting is not merely an activity, but an *act of self-creation*.
 
@@ -120,4 +126,4 @@ This is the first step on the path of Latexistentialism. The canvas is blank. Th
 
 ---
 
-*Pillar I: Existence Precedes Essence - A Narrative Exploration | Part of: Latexistentialism - The Practice of the Four Pillars*
+© 2026 by AtaraxiA. Contact: [AtaraxiA@rubbernaut.com](mailto:AtaraxiA@rubbernaut.com). Licensed under CC BY-SA 4.0. | Part of: Latexistentialism - The Practice of the Four Pillars

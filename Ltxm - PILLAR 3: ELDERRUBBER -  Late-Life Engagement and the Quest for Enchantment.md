@@ -6,9 +6,15 @@
 
 ---
 
+**SERIES: LATEXISTENTIALISM - THE PRACTICE OF THE FOUR PILLARS**
+
+Manifesto | Pillar I | Pillar II | **Pillar III** | Pillar IV | Glossary | Reading List
+
+---
+
 ## **🎭 CAVEAT**
 
-*These writings are intended for individuals who already possess a rubber fetish. If you do not share this orientation, you will likely find these documents confusing, irrelevant, or uninteresting. You are not the intended audience, and your time may be better spent elsewhere.*
+*These writings are intended primarily for elderly individuals who already possess a rubber fetish, though younger Rubberists may find it useful. If you do not share this orientation, you will likely find these documents confusing, irrelevant, or uninteresting. You are not the intended audience, and your time may be better spent elsewhere.*
 
 ---
 
