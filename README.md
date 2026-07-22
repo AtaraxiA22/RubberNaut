@@ -2,7 +2,9 @@
 Philosophy of Rubber Fetish, Especially for Elder Rubberists
 
 ----------------
-## IMPORTANT CAVEAT: If you do not have a 'deep' rubber fetish, you are probably wasting your time here.
+## **🎭 CAVEAT**
+
+*These writings are intended for individuals who already possess a rubber fetish. If you do not share this orientation, you will likely find these documents confusing, irrelevant, or uninteresting. You are not the intended audience, and your time may be better spent elsewhere.*
 ----------------
 
 (c) @26.0710-1350.45 by AtaraxiA under Creative Commons CC BY-SA license
