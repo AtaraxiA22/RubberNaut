@@ -1,0 +1,12 @@
+/* RubberNaut — black page, white text */
+body { background-color: #000; color: #fff; font-family: Georgia, 'Times New Roman', serif; margin: 0; }
+a { color: #9cf; }
+.post { max-width: 820px; margin: 0 auto; padding: 24px; background-color: #000; color: #fff; }
+.post h1 { color: #fff; }
+.post .meta { color: #999; font-size: small; }
+.post img { max-width: 100%; display: block; margin: 16px auto; }
+.post .body { color: #fff; line-height: 1.6; }
+.post .foot { color: #888; font-size: small; }
+.index { max-width: 820px; margin: 0 auto; padding: 24px; }
+.index ul { list-style: none; padding-left: 0; }
+.index li { margin: 10px 0; }

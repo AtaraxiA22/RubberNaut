@@ -1,7 +1,7 @@
-title: RubberNaut
-description: A Philosophy of Rubber Fetish for Elder Rubberists
+title: RubberNaut — The Thalia Journal
+description: An epistolary journal of the RubberNaut stories, in chronological order.
 author: AtaraxiA
-url: "https://AtaraxiA22.github.io"
+url: "https://rubbernaut.com"
 baseurl: ""
 
 theme: jekyll-theme-minimal
@@ -13,4 +13,4 @@ defaults:
       path: ""
       type: "posts"
     values:
-      layout: "default"
+      layout: "post"
