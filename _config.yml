@@ -2,7 +2,7 @@ title: RubberNaut — The Thalia Journal
 description: An epistolary journal of the RubberNaut stories, in chronological order.
 author: AtaraxiA
 url: "https://rubbernaut.com"
-baseurl: ""
+baseurl: "/RubberNaut"
 
 theme: jekyll-theme-minimal
 plugins:
