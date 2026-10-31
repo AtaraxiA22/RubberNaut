@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "2019 Oct. 31, 9:30pm — The Witch and the Familiar, v3 Text Experiment"
+title: "2019 Oct. 31, 9:37pm — The Witch and the Familiar"
 date: 2019-10-31 21:37:00 -0700
 stamp: "Rn+2019.1031-2137"
 image: "/assets/img/Rn+2019.1031-2137.webp"
