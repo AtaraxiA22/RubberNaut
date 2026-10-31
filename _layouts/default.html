@@ -7,6 +7,23 @@
 <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}"/>
 </head>
 <body>
+<div class="shell">
+  {% unless page.nosidebar %}
+  <nav class="toc">
+    <h3><a href="{{ '/' | relative_url }}">Journal</a></h3>
+    <ul>
+    {% assign posts = site.posts | sort: "date" %}
+    {% for post in posts %}
+      <li{% if post.url == page.url %} class="current"{% endif %}>
+        <a href="{{ post.url | relative_url }}">{{ post.date | date: "%Y-%m-%d" }} — {{ post.title }}</a>
+      </li>
+    {% endfor %}
+    </ul>
+  </nav>
+  {% endunless %}
+  <main class="content">
 {{ content }}
+  </main>
+</div>
 </body>
 </html>
