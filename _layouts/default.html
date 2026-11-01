@@ -10,7 +10,7 @@
 <div class="shell">
   {% unless page.nosidebar %}
   <nav class="toc">
-    <!-- RNcom nav build: monthfolders-v2 twopass (v01.10) -->
+    <!-- RNcom nav build: monthfolders-v3 urlpath (v01.11) -->
     <h3><a href="{{ '/' | relative_url }}">RubberNaut &mdash; The Thalia Journal</a></h3>
     <div class="filterrow">
       <input type="search" id="tocfilter" class="tocfilter" placeholder="filter titles &amp; text&hellip;" aria-label="filter the journal"/>
@@ -25,8 +25,10 @@
     {% assign posts = site.posts | sort: "date" | reverse %}
     {% assign monthkeys = "|" %}
     {% for post in posts %}
-      {% assign fname = post.page_path | split: '/' | last %}
-      {% assign mkey = fname | slice: 0, 7 %}
+      {% assign fname = post.path | split: '/' | last %}
+      {% assign yr0 = fname | slice: 0, 4 %}
+      {% assign mo0 = fname | slice: 5, 2 %}
+      {% assign mkey = yr0 | append: "-" | append: mo0 %}
       {% assign probe = "|" | append: mkey | append: "|" %}
       {% unless monthkeys contains probe %}
         {% assign monthkeys = monthkeys | append: mkey | append: "|" %}
@@ -35,7 +37,7 @@
     {% assign mlist = monthkeys | split: "|" %}
     {% assign seen = 0 %}
     {% for mk in mlist %}
-      {% if mk == "" %}{% continue %}{% endif %}
+      {% if mk != "" %}
       {% assign seen = seen | plus: 1 %}
       {% assign yr = mk | slice: 0, 4 %}
       {% assign mnum = mk | slice: 5, 2 %}
@@ -57,8 +59,10 @@
         <summary>{{ mname }} {{ yr }}</summary>
         <ul>
         {% for post in posts %}
-          {% assign fname = post.page_path | split: '/' | last %}
-          {% assign pkey = fname | slice: 0, 7 %}
+          {% assign fname = post.path | split: '/' | last %}
+          {% assign pyr = fname | slice: 0, 4 %}
+          {% assign pmo = fname | slice: 5, 2 %}
+          {% assign pkey = pyr | append: "-" | append: pmo %}
           {% if pkey == mk %}
           <li{% if post.url == page.url %} class="current"{% endif %} data-title="{{ post.title | strip_html | replace: '"', '&quot;' }}" data-body="{{ post.content | strip_html | replace: '"', '&quot;' }}">
             <span class="mday">{{ fname | slice: 8, 2 }}</span>
@@ -68,6 +72,7 @@
         {% endfor %}
         </ul>
       </details>
+      {% endif %}
     {% endfor %}
     <p class="tocempty" hidden>No journal entries match &ldquo;<span id="tocq"></span>&rdquo;.</p>
     <p class="sitever">RNcom.{{ site.rncom_version }}</p>
