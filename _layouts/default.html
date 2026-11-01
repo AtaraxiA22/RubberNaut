@@ -10,6 +10,7 @@
 <div class="shell">
   {% unless page.nosidebar %}
   <nav class="toc">
+    <!-- RNcom nav build: monthfolders-v2 twopass (v01.07) -->
     <h3><a href="{{ '/' | relative_url }}">RubberNaut &mdash; The Thalia Journal</a></h3>
     <div class="filterrow">
       <input type="search" id="tocfilter" class="tocfilter" placeholder="filter titles &amp; text&hellip;" aria-label="filter the journal"/>
@@ -17,20 +18,27 @@
       <button type="button" id="tocfold" class="tocclear" title="close all month folders">fold&nbsp;all</button>
     </div>
     <p class="sortnote">Sorted by <strong>story date</strong> (newest first). <a href="{{ '/tags.html' | relative_url }}">browse by tag</a></p>
-    {% comment %}Group the TOC by month using the LOCAL STORY date taken from the post's
-    FILENAME (YYYY-MM-DD-...): Jekyll's post.date is UTC-shifted, which filed an
-    Oct-31 9:37pm page under November. page_path carries the filename, so slice the
-    first 7 chars for the month key and the first 10 for the label date. Entries are
-    still walked in true story order (site.posts sort: date); only the grouping key
-    uses the filename date. Each entry carries data-title AND data-body for full-text
-    filter.{% endcomment %}
+    {% comment %}Month folders, two-pass (robust plain Liquid): pass 1 collects the distinct
+    month keys (newest first) into a |-joined string; pass 2 loops those keys and, for each,
+    loops all posts printing the ones whose filename month matches. Each entry carries
+    data-title AND data-body so the filter can search full text too.{% endcomment %}
     {% assign posts = site.posts | sort: "date" | reverse %}
-    {% assign open_month = "" %}
+    {% assign monthkeys = "|" %}
     {% for post in posts %}
       {% assign fname = post.page_path | split: '/' | last %}
       {% assign mkey = fname | slice: 0, 7 %}
-      {% assign yr = fname | slice: 0, 4 %}
-      {% assign mnum = fname | slice: 5, 2 %}
+      {% assign probe = "|" | append: mkey | append: "|" %}
+      {% unless monthkeys contains probe %}
+        {% assign monthkeys = monthkeys | append: mkey | append: "|" %}
+      {% endunless %}
+    {% endfor %}
+    {% assign mlist = monthkeys | split: "|" %}
+    {% assign seen = 0 %}
+    {% for mk in mlist %}
+      {% if mk == "" %}{% continue %}{% endif %}
+      {% assign seen = seen | plus: 1 %}
+      {% assign yr = mk | slice: 0, 4 %}
+      {% assign mnum = mk | slice: 5, 2 %}
       {% case mnum %}
         {% when '01' %}{% assign mname = 'January' %}
         {% when '02' %}{% assign mname = 'February' %}
@@ -45,18 +53,21 @@
         {% when '11' %}{% assign mname = 'November' %}
         {% when '12' %}{% assign mname = 'December' %}
       {% endcase %}
-      {% if mkey != open_month %}
-        {% if open_month != "" %}</ul></details>{% endif %}
-        {% assign open_month = mkey %}
-        <details class="month"{% if forloop.first or post.url == page.url %} open{% endif %}>
-          <summary>{{ mname }} {{ yr }}</summary>
-          <ul>
-      {% endif %}
-      <li{% if post.url == page.url %} class="current"{% endif %} data-title="{{ post.title | escape }}" data-body="{{ post.content | strip_html | escape }}">
-        <span class="mday">{{ fname | slice: 8, 2 }}</span>
-        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-      </li>
-      {% if forloop.last %}</ul></details>{% endif %}
+      <details class="month"{% if seen == 1 %} open{% endif %}>
+        <summary>{{ mname }} {{ yr }}</summary>
+        <ul>
+        {% for post in posts %}
+          {% assign fname = post.page_path | split: '/' | last %}
+          {% assign pkey = fname | slice: 0, 7 %}
+          {% if pkey == mk %}
+          <li{% if post.url == page.url %} class="current"{% endif %} data-title="{{ post.title | escape }}" data-body="{{ post.content | strip_html | escape }}">
+            <span class="mday">{{ fname | slice: 8, 2 }}</span>
+            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          </li>
+          {% endif %}
+        {% endfor %}
+        </ul>
+      </details>
     {% endfor %}
     <p class="tocempty" hidden>No journal entries match &ldquo;<span id="tocq"></span>&rdquo;.</p>
     <p class="sitever">RNcom.{{ site.rncom_version }}</p>
