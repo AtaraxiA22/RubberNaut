@@ -27,14 +27,24 @@
     {% assign posts = site.posts | sort: "date" | reverse %}
     {% assign open_month = "" %}
     {% for post in posts %}
-      {% assign fname = post.page_path | default: post.name | split: '/' | last %}
+      {% assign fname = post.page_path | split: '/' | last %}
       {% assign mkey = fname | slice: 0, 7 %}
-      {% capture fmonth %}{{ mkey }}{% endcapture %}
-      {% assign mnum = fmonth | slice: 5, 2 | plus: 0 %}
-      {% assign yr = fmonth | slice: 0, 4 %}
-      {% capture mnames %}|January|February|March|April|May|June|July|August|September|October|November|December{% endcapture %}
-      {% assign mlist = mnames | split: "|" %}
-      {% assign mname = mlist[mnum] %}
+      {% assign yr = fname | slice: 0, 4 %}
+      {% assign mnum = fname | slice: 5, 2 %}
+      {% case mnum %}
+        {% when '01' %}{% assign mname = 'January' %}
+        {% when '02' %}{% assign mname = 'February' %}
+        {% when '03' %}{% assign mname = 'March' %}
+        {% when '04' %}{% assign mname = 'April' %}
+        {% when '05' %}{% assign mname = 'May' %}
+        {% when '06' %}{% assign mname = 'June' %}
+        {% when '07' %}{% assign mname = 'July' %}
+        {% when '08' %}{% assign mname = 'August' %}
+        {% when '09' %}{% assign mname = 'September' %}
+        {% when '10' %}{% assign mname = 'October' %}
+        {% when '11' %}{% assign mname = 'November' %}
+        {% when '12' %}{% assign mname = 'December' %}
+      {% endcase %}
       {% if mkey != open_month %}
         {% if open_month != "" %}</ul></details>{% endif %}
         {% assign open_month = mkey %}
@@ -43,6 +53,7 @@
           <ul>
       {% endif %}
       <li{% if post.url == page.url %} class="current"{% endif %} data-title="{{ post.title | escape }}" data-body="{{ post.content | strip_html | escape }}">
+        <span class="mday">{{ fname | slice: 8, 2 }}</span>
         <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
       </li>
       {% if forloop.last %}</ul></details>{% endif %}
