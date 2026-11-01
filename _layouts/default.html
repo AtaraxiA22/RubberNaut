@@ -36,7 +36,7 @@
       {% assign mlist = mnames | split: "|" %}
       {% assign mname = mlist[mnum] %}
       {% if mkey != open_month %}
-        {% if open_month != "" %}</details>{% endif %}
+        {% if open_month != "" %}</ul></details>{% endif %}
         {% assign open_month = mkey %}
         <details class="month"{% if forloop.first or post.url == page.url %} open{% endif %}>
           <summary>{{ mname }} {{ yr }}</summary>
