@@ -11,7 +11,10 @@
   {% unless page.nosidebar %}
   <nav class="toc">
     <h3><a href="{{ '/' | relative_url }}">RubberNaut &mdash; The Thalia Journal</a></h3>
-    <input type="search" id="tocfilter" class="tocfilter" placeholder="filter the journal&hellip;" aria-label="filter the journal"/>
+    <div class="filterrow">
+      <input type="search" id="tocfilter" class="tocfilter" placeholder="filter the journal&hellip;" aria-label="filter the journal"/>
+      <button type="button" id="tocclear" class="tocclear" title="clear the filter" hidden>&times;</button>
+    </div>
     <p class="sortnote">Sorted by <strong>story date</strong> (newest first). <a href="{{ '/tags.html' | relative_url }}">browse by tag</a></p>
     {% comment %}Group the TOC by month (yyyy-mm). Liquid has no group_by on date strings,
     so walk the posts newest-first and open a new details block whenever the month key
@@ -32,7 +35,7 @@
       </li>
       {% if forloop.last %}</ul></details>{% endif %}
     {% endfor %}
-    <p class="tocempty" hidden>No entries match the filter.</p>
+    <p class="tocempty" hidden>No journal entries match &ldquo;<span id="tocq"></span>&rdquo;.</p>
   </nav>
   {% endunless %}
   <main class="content">
@@ -40,17 +43,19 @@
   </main>
 </div>
 <script>
-// Tiny client-side filter for the TOC (no backend, works with 500+ pages).
+// Client-side filter for the TOC (no backend, no Go button needed — filters as you type).
 (function () {
   var box = document.getElementById('tocfilter');
   if (!box) return;
+  var clearBtn = document.getElementById('tocclear');
   var items = Array.prototype.slice.call(document.querySelectorAll('.toc li'));
   var empty = document.querySelector('.tocempty');
+  var qspan = document.getElementById('tocq');
   // remember which month blocks start open (the newest month) so clearing restores them
   document.querySelectorAll('.toc details.month[open]').forEach(function (d) {
     d.setAttribute('data-default-open', '');
   });
-  box.addEventListener('input', function () {
+  function apply() {
     var q = box.value.trim().toLowerCase();
     var shown = 0;
     items.forEach(function (li) {
@@ -62,8 +67,19 @@
     document.querySelectorAll('.toc details.month').forEach(function (d) {
       d.open = !!q || d.hasAttribute('data-default-open');
     });
-    if (empty) empty.hidden = shown !== 0;
+    if (clearBtn) clearBtn.hidden = !q;
+    if (empty) {
+      empty.hidden = shown !== 0;
+      if (qspan) qspan.textContent = q;
+    }
+  }
+  box.addEventListener('input', apply);
+  box.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Enter') { ev.preventDefault(); apply(); }   // Enter also just re-applies
+    if (ev.key === 'Escape') { box.value = ''; apply(); }        // Esc clears
   });
+  if (clearBtn) clearBtn.addEventListener('click', function () { box.value = ''; apply(); box.focus(); });
+  apply();
 })();
 </script>
 </body>
