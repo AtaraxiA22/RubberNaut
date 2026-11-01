@@ -10,7 +10,7 @@
 <div class="shell">
   {% unless page.nosidebar %}
   <nav class="toc">
-    <!-- RNcom nav build: monthfolders-v2 twopass (v01.09) -->
+    <!-- RNcom nav build: monthfolders-v2 twopass (v01.10) -->
     <h3><a href="{{ '/' | relative_url }}">RubberNaut &mdash; The Thalia Journal</a></h3>
     <div class="filterrow">
       <input type="search" id="tocfilter" class="tocfilter" placeholder="filter titles &amp; text&hellip;" aria-label="filter the journal"/>
@@ -101,7 +101,9 @@
     var q = box.value.trim().toLowerCase();
     var shown = 0;
     items.forEach(function (li) {
-      var hay = ((li.getAttribute('data-title') || '') + ' ' + (li.getAttribute('data-body') || '')).toLowerCase();
+      // search the visible link text (always decoded correctly by the browser)
+      // plus the full entry body; data-title is kept only as a backup
+      var hay = (li.textContent + ' ' + (li.getAttribute('data-title') || '') + ' ' + (li.getAttribute('data-body') || '')).toLowerCase();
       var hit = !q || hay.indexOf(q) !== -1;
       li.hidden = !hit;
       if (hit) shown++;
