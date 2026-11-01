@@ -1,7 +1,7 @@
 title: RubberNaut — The Thalia Journal
 description: An epistolary journal of the RubberNaut stories, in chronological order.
 author: AtaraxiA
-rncom_version: "v01.16"  # RNcom site version — bump the second number with every change group
+rncom_version: "v02.02"  # RNcom site version — bump the second number with every change group
 url: "https://rubbernaut.com"
 baseurl: "/RubberNaut"
 

@@ -10,14 +10,27 @@
 <div class="shell">
   {% unless page.nosidebar %}
   <nav class="toc">
-    <!-- RNcom nav build: monthfolders-v3 urlpath (v01.16) -->
+    <!-- RNcom nav build: sorttable-v1 compactlines (v02.02) -->
     <h3><a href="{{ '/' | relative_url }}">RubberNaut &mdash; The Thalia Journal</a></h3>
     <div class="filterrow">
       <input type="search" id="tocfilter" class="tocfilter" placeholder="filter titles &amp; text&hellip;" aria-label="filter the journal"/>
       <button type="button" id="tocclear" class="tocclear" title="clear the filter" hidden>&times;</button>
       <button type="button" id="tocfold" class="tocclear" title="close all month folders">fold&nbsp;all</button>
     </div>
-    <p class="sortnote">Sorted by <strong>story date</strong> (newest first). <a href="{{ '/tags.html' | relative_url }}">browse by tag</a></p>
+    <table class="sorttbl" id="sorttbl">
+      <tr><th colspan="3">Sort by — displayed first:</th></tr>
+      <tr>
+        <td>Story date:</td>
+        <td><label><input type="radio" name="rncom-sort" value="story-new"/> newest</label></td>
+        <td><label><input type="radio" name="rncom-sort" value="story-old" checked/> oldest</label></td>
+      </tr>
+      <tr class="pubrow">
+        <td>Publication date:</td>
+        <td><label><input type="radio" name="rncom-sort" value="pub-new"/> newest</label></td>
+        <td><label><input type="radio" name="rncom-sort" value="pub-old"/> oldest</label></td>
+      </tr>
+    </table>
+    <p class="sortnote"><a href="{{ '/tags.html' | relative_url }}">browse tags</a></p>
     <p class="resume" id="tocresume" hidden>continue where you left off: <a id="tocresume-link" href="#"></a></p>
     {% comment %}Month folders, two-pass (robust plain Liquid): pass 1 collects the distinct
     month keys (newest first) into a |-joined string; pass 2 loops those keys and, for each,
@@ -63,9 +76,16 @@
           {% assign pmo = fname | slice: 5, 2 %}
           {% assign pkey = pyr | append: "-" | append: pmo %}
           {% if pkey == mk %}
-          <li{% if post.url == page.url %} class="current"{% endif %} data-title="{{ post.title | strip_html | replace: '"', '&quot;' }}" data-body="{{ post.content | strip_html | replace: '"', '&quot;' }}">
-            <span class="mday">{{ fname | slice: 8, 2 }}</span>
-            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          {% comment %}compact line: day + short month + time from the post's own date; the
+          full title stays in data-title (searchable) and as the link's hover tooltip{% endcomment %}
+          {% assign d_day = post.date | date: '%d' %}
+          {% assign d_mon = post.date | date: '%b' %}
+          {% assign d_ampm = post.date | date: '%p' | downcase %}
+          {% assign d_time = post.date | date: '%I:%M' | replace: ' 0', ' ' %}
+          {% assign d_time = d_time | remove: '^0' %}
+          {% if d_time == '12:00am' %}{% endif %}
+          <li{% if post.url == page.url %} class="current"{% endif %} data-title="{{ post.title | strip_html | replace: '"', '&quot;' }}" data-body="{{ post.content | strip_html | replace: '"', '&quot;' }}" data-story="{{ post.date | date: '%Y-%m-%d %H:%M:%S' }}" data-pub="{{ post.published | default: '' }}">
+            <a href="{{ post.url | relative_url }}" title="{{ post.title | strip_html | replace: '"', '&quot;' }}">{{ d_day }} {{ d_mon }}, {{ d_time }}{{ d_ampm }} &mdash; {{ post.title }}</a>{% if post.published %} <span class="pubdate">{{ post.published }}</span>{% endif %}
           </li>
           {% endif %}
         {% endfor %}
@@ -106,6 +126,38 @@
   var months = Array.prototype.slice.call(document.querySelectorAll('.toc details.month'));
   var empty = document.querySelector('.tocempty');
   var qspan = document.getElementById('tocq');
+  // ---- sort table: re-order entries inside each month folder (client-side) ----
+  // data-story = story date, data-pub = publication date (from the page's own
+  // 'published' field — no GitHub lookup needed). Default: story date, oldest first.
+  function sortKey(li, mode) {
+    if (mode === 'pub-new' || mode === 'pub-old') return li.getAttribute('data-pub') || '9999';
+    return li.getAttribute('data-story') || '';
+  }
+  function applySort() {
+    var mode = 'story-old';
+    var radios = document.querySelectorAll('input[name="rncom-sort"]');
+    for (var i = 0; i < radios.length; i++) if (radios[i].checked) mode = radios[i].value;
+    var newestFirst = (mode === 'story-new' || mode === 'pub-new');
+    months.forEach(function (d) {
+      var ul = d.querySelector('ul');
+      if (!ul) return;
+      var lis = Array.prototype.slice.call(ul.querySelectorAll('li'));
+      lis.sort(function (a, b) {
+        var ka = sortKey(a, mode), kb = sortKey(b, mode);
+        return newestFirst ? (ka < kb ? 1 : ka > kb ? -1 : 0) : (ka < kb ? -1 : ka > kb ? 1 : 0);
+      });
+      lis.forEach(function (li) { ul.appendChild(li); });  // re-append in sorted order
+    });
+  }
+  var sortRadios = document.querySelectorAll('input[name="rncom-sort"]');
+  function paintSortActive() {
+    for (var i = 0; i < sortRadios.length; i++) {
+      var lab = sortRadios[i].closest('label');
+      if (lab) lab.classList.toggle('active', sortRadios[i].checked);
+    }
+  }
+  for (var i = 0; i < sortRadios.length; i++) sortRadios[i].addEventListener('change', function () { applySort(); paintSortActive(); });
+  paintSortActive();
   function apply() {
     var q = box.value.trim().toLowerCase();
     var shown = 0;
@@ -145,6 +197,7 @@
     apply();
     months.forEach(function (d) { d.open = false; });
   });
+  applySort();  // initial order = story date, oldest first (the checked default)
   apply();
   // on a STORY page: open the current entry's month folder and scroll to it,
   // so the bold 'you are here' entry is visible (index/home pages: all closed)

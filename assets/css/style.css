@@ -13,6 +13,12 @@ a { color: #9cf; }
 .tocfilter:focus { outline: 1px solid #9cf; }
 .resume { color: #9cf; font-size: 0.78em; margin: 0 0 10px; }
 .resume a { color: #9cf; }
+.sorttbl { border-collapse: collapse; margin: 0 0 10px; font-size: 0.78em; color: #ccc; }
+.sorttbl th { text-align: left; font-weight: bold; color: #ccc; padding: 2px 6px 4px 0; border-bottom: 1px solid #333; }
+.sorttbl td { padding: 2px 8px 2px 0; white-space: nowrap; }
+.sorttbl .pubrow td, .sorttbl .pubrow label { color: #f80; }   /* publication date row in orange */
+.sorttbl label.active { color: #fff; background: #333; border-radius: 3px; padding: 0 3px; }  /* active radio label, set by JS */
+.pubdate { color: #f80; font-size: 0.7em; }   /* publication date after each title, same small size as the version # */
 .sortnote { color: #888; font-size: 0.75em; margin: 0 0 10px; }
 .sortnote strong { color: #ccc; }
 .toc details.month { margin: 4px 0; }
