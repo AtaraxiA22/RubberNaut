@@ -10,7 +10,7 @@
 <div class="shell">
   {% unless page.nosidebar %}
   <nav class="toc">
-    <!-- RNcom nav build: monthfolders-v3 urlpath (v01.11) -->
+    <!-- RNcom nav build: monthfolders-v3 urlpath (v01.12) -->
     <h3><a href="{{ '/' | relative_url }}">RubberNaut &mdash; The Thalia Journal</a></h3>
     <div class="filterrow">
       <input type="search" id="tocfilter" class="tocfilter" placeholder="filter titles &amp; text&hellip;" aria-label="filter the journal"/>
@@ -135,7 +135,14 @@
     if (ev.key === 'Escape') { box.value = ''; apply(); }
   });
   if (clearBtn) clearBtn.addEventListener('click', function () { box.value = ''; apply(); box.focus(); });
-  if (foldBtn) foldBtn.addEventListener('click', function () { box.value = ''; apply(); });  // fold all = clear filter, which re-closes every month except the newest
+  if (foldBtn) foldBtn.addEventListener('click', function () {
+    // fold all = clear the filter AND close every month folder, including
+    // the newest and the current page's month
+    box.value = '';
+    months.forEach(function (d) { d.open = false; });
+    apply();
+    months.forEach(function (d) { d.open = false; });  // apply() re-opens defaults; force shut again
+  });
   apply();
   // make sure the current page's entry is visible in the menu: open its month and scroll to it
   if (curLi) {
