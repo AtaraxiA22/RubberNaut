@@ -9,6 +9,7 @@ a { color: #9cf; }
 .tocfilter { flex: 1; min-width: 0; box-sizing: border-box; background: #111; color: #fff; border: 1px solid #444; border-radius: 4px; padding: 6px 8px; font-size: 0.9em; }
 .tocclear { flex: 0 0 auto; background: #111; color: #ccc; border: 1px solid #444; border-radius: 4px; padding: 4px 9px; font-size: 0.9em; cursor: pointer; }
 .tocclear:hover { color: #fff; border-color: #9cf; }
+#tocfold { font-size: 0.75em; padding: 5px 7px; white-space: nowrap; }
 .tocfilter:focus { outline: 1px solid #9cf; }
 .sortnote { color: #888; font-size: 0.75em; margin: 0 0 10px; }
 .sortnote strong { color: #ccc; }

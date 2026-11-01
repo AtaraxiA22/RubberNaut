@@ -27,8 +27,10 @@ stamp, e.g. `Rn+2019.1031-2137.webp`. Commit and push — the site rebuilds.
 - `journal.md` — the journal index at `/journal.html` (sidebar menu on the left).
 - `tags.md` — browse-by-tag page at `/tags.html`.
 - `_layouts/default.html` — shell with the left menu: header "RubberNaut — The Thalia Journal",
-  a filter box (filters as you type; × clears; Esc clears; a "No journal entries match …" message appears
-  when nothing matches), entries grouped into collapsible month blocks (newest month open).
+  a filter box that searches TITLES and FULL TEXT as you type (× clears; Esc clears; a "No journal
+  entries match …" message appears when nothing matches; a 'fold all' button closes every month block),
+  entries grouped into collapsible month blocks (newest month open; month blocks auto-open while
+  filtering and re-close when the filter is cleared).
 - `_layouts/post.html` — one story page: title, stamp (+ "added to the site <date>"), image,
   anecdote, tag links, and back / index / forward arrows at the bottom.
 - Editing pages: any plain-text editor works (the pages are simple Markdown with a

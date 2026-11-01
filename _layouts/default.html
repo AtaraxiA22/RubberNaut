@@ -12,13 +12,15 @@
   <nav class="toc">
     <h3><a href="{{ '/' | relative_url }}">RubberNaut &mdash; The Thalia Journal</a></h3>
     <div class="filterrow">
-      <input type="search" id="tocfilter" class="tocfilter" placeholder="filter the journal&hellip;" aria-label="filter the journal"/>
+      <input type="search" id="tocfilter" class="tocfilter" placeholder="filter titles &amp; text&hellip;" aria-label="filter the journal"/>
       <button type="button" id="tocclear" class="tocclear" title="clear the filter" hidden>&times;</button>
+      <button type="button" id="tocfold" class="tocclear" title="close all month folders">fold&nbsp;all</button>
     </div>
     <p class="sortnote">Sorted by <strong>story date</strong> (newest first). <a href="{{ '/tags.html' | relative_url }}">browse by tag</a></p>
     {% comment %}Group the TOC by month (yyyy-mm). Liquid has no group_by on date strings,
     so walk the posts newest-first and open a new details block whenever the month key
-    changes. The newest month starts open; older months start closed (500 pages stay tidy).{% endcomment %}
+    changes. The newest month starts open; older months start closed (500 pages stay tidy).
+    Each entry carries data-title AND data-body so the filter can search full text too.{% endcomment %}
     {% assign posts = site.posts | sort: "date" | reverse %}
     {% assign open_month = "" %}
     {% for post in posts %}
@@ -30,7 +32,7 @@
           <summary>{{ post.date | date: "%B %Y" }}</summary>
           <ul>
       {% endif %}
-      <li{% if post.url == page.url %} class="current"{% endif %} data-title="{{ post.title | escape }}">
+      <li{% if post.url == page.url %} class="current"{% endif %} data-title="{{ post.title | escape }}" data-body="{{ post.content | strip_html | escape }}">
         <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
       </li>
       {% if forloop.last %}</ul></details>{% endif %}
@@ -43,29 +45,39 @@
   </main>
 </div>
 <script>
-// Client-side filter for the TOC (no backend, no Go button needed — filters as you type).
+// Client-side filter for the TOC (no backend). Searches titles AND full entry text.
+// Month folders auto-open while filtering and re-close when the filter is cleared.
 (function () {
   var box = document.getElementById('tocfilter');
   if (!box) return;
   var clearBtn = document.getElementById('tocclear');
+  var foldBtn = document.getElementById('tocfold');
   var items = Array.prototype.slice.call(document.querySelectorAll('.toc li'));
+  var months = Array.prototype.slice.call(document.querySelectorAll('.toc details.month'));
   var empty = document.querySelector('.tocempty');
   var qspan = document.getElementById('tocq');
-  // remember which month blocks start open (the newest month) so clearing restores them
-  document.querySelectorAll('.toc details.month[open]').forEach(function (d) {
-    d.setAttribute('data-default-open', '');
+  // remember which month blocks start open (the newest month) so clearing/folding restores them
+  months.forEach(function (d) {
+    if (d.open) d.setAttribute('data-default-open', '');
   });
   function apply() {
     var q = box.value.trim().toLowerCase();
     var shown = 0;
     items.forEach(function (li) {
-      var hit = !q || (li.getAttribute('data-title') || '').toLowerCase().indexOf(q) !== -1;
+      var hay = ((li.getAttribute('data-title') || '') + ' ' + (li.getAttribute('data-body') || '')).toLowerCase();
+      var hit = !q || hay.indexOf(q) !== -1;
       li.hidden = !hit;
       if (hit) shown++;
     });
-    // open every month block while filtering so matches are visible
-    document.querySelectorAll('.toc details.month').forEach(function (d) {
-      d.open = !!q || d.hasAttribute('data-default-open');
+    // while filtering: open every month that still has a visible hit;
+    // when cleared: restore only the default-open (newest) month
+    months.forEach(function (d) {
+      if (q) {
+        var anyVisible = d.querySelector('li:not([hidden])') !== null;
+        d.open = anyVisible;
+      } else {
+        d.open = d.hasAttribute('data-default-open');
+      }
     });
     if (clearBtn) clearBtn.hidden = !q;
     if (empty) {
@@ -75,10 +87,11 @@
   }
   box.addEventListener('input', apply);
   box.addEventListener('keydown', function (ev) {
-    if (ev.key === 'Enter') { ev.preventDefault(); apply(); }   // Enter also just re-applies
-    if (ev.key === 'Escape') { box.value = ''; apply(); }        // Esc clears
+    if (ev.key === 'Enter') { ev.preventDefault(); apply(); }
+    if (ev.key === 'Escape') { box.value = ''; apply(); }
   });
   if (clearBtn) clearBtn.addEventListener('click', function () { box.value = ''; apply(); box.focus(); });
+  if (foldBtn) foldBtn.addEventListener('click', function () { box.value = ''; apply(); });  // fold all = clear filter, which re-closes every month except the newest
   apply();
 })();
 </script>
