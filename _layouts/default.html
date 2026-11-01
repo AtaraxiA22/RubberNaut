@@ -28,7 +28,7 @@
       {% if mkey != open_month %}
         {% if open_month != "" %}</details>{% endif %}
         {% assign open_month = mkey %}
-        <details class="month"{% if forloop.first %} open{% endif %}>
+        <details class="month"{% if forloop.first or post.url == page.url %} open{% endif %}>
           <summary>{{ post.date | date: "%B %Y" }}</summary>
           <ul>
       {% endif %}
@@ -38,6 +38,7 @@
       {% if forloop.last %}</ul></details>{% endif %}
     {% endfor %}
     <p class="tocempty" hidden>No journal entries match &ldquo;<span id="tocq"></span>&rdquo;.</p>
+    <p class="sitever">RNcom.{{ site.rncom_version }}</p>
   </nav>
   {% endunless %}
   <main class="content">
@@ -56,10 +57,14 @@
   var months = Array.prototype.slice.call(document.querySelectorAll('.toc details.month'));
   var empty = document.querySelector('.tocempty');
   var qspan = document.getElementById('tocq');
-  // remember which month blocks start open (the newest month) so clearing/folding restores them
+  // remember which month blocks start open (the newest month AND the current page's month)
+  // so clearing/folding restores exactly those
   months.forEach(function (d) {
     if (d.open) d.setAttribute('data-default-open', '');
   });
+  var curLi = document.querySelector('.toc li.current');
+  var curMonth = curLi ? curLi.closest('details.month') : null;
+  if (curMonth) curMonth.setAttribute('data-default-open', '');
   function apply() {
     var q = box.value.trim().toLowerCase();
     var shown = 0;
@@ -93,6 +98,11 @@
   if (clearBtn) clearBtn.addEventListener('click', function () { box.value = ''; apply(); box.focus(); });
   if (foldBtn) foldBtn.addEventListener('click', function () { box.value = ''; apply(); });  // fold all = clear filter, which re-closes every month except the newest
   apply();
+  // make sure the current page's entry is visible in the menu: open its month and scroll to it
+  if (curLi) {
+    if (curMonth) curMonth.open = true;
+    curLi.scrollIntoView({ block: 'nearest' });
+  }
 })();
 </script>
 </body>

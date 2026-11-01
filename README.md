@@ -6,6 +6,13 @@ single-image pages in chronological order. Live at **https://rubbernaut.com**
 
 © 2026 by AtaraxiA under Creative Commons BY-SA.
 
+## Version
+
+The site calls itself **RNcom** and shows its version in the lower-left corner of the
+left menu (`rncom_version` in `_config.yml`, currently `v01.01`). Bump the second
+number by 1 with every group of changes (e.g. `v01.02`), so you can always see at
+a glance which build is live.
+
 ## About this site
 
 This site is intended to remain online permanently and unattended. It is a
