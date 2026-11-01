@@ -1,19 +1,12 @@
 ---
 layout: default
-title: Index
+title: RubberNaut — The Thalia Journal
 ---
 <div class="index" style="background-color:#000; color:#fff;">
-  <h1 style="color:#fff;">RubberNaut — The Thalia Journal</h1>
-  <p style="color:#ccc;">An epistolary journal, in chronological order. Newest entries first.</p>
-  <p style="color:#888; font-size:small;">&copy; 2026 by AtaraxiA under Creative Commons BY-SA</p>
-  <hr style="border-color:#333;"/>
-  <ul>
-  {% assign posts = site.posts | sort: "date" | reverse %}
-  {% for post in posts %}
-    <li>
-      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-      <span style="color:#888; font-size:small;"> — {{ post.date | date: "%Y-%m-%d %H:%M" }}</span>
-    </li>
-  {% endfor %}
-  </ul>
+  <h1 style="color:#fff;">RubberNaut &mdash; The Thalia Journal</h1>
+  <p style="color:#ccc;">An epistolary journal, in chronological order. Use the menu on the left
+  (grouped by month, newest month open) or the filter box to find an entry &mdash;
+  every page also has back / index / forward arrows at the bottom.
+  There is a <a href="{{ '/tags.html' | relative_url }}">tag browser</a> too.</p>
+  <p style="color:#888; font-size:small;">{{ site.posts.size }} entries &middot; sorted by story date, newest first &middot; &copy; {{ site.time | date: "%Y" }} by AtaraxiA under Creative Commons BY-SA</p>
 </div>

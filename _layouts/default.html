@@ -3,27 +3,68 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>{% if page.title %}{{ page.title }} — {% endif %}{{ site.title }}</title>
+<title>{% if page.title %}{{ page.title }} &mdash; {% endif %}{{ site.title }}</title>
 <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}"/>
 </head>
 <body>
 <div class="shell">
   {% unless page.nosidebar %}
   <nav class="toc">
-    <h3><a href="{{ '/' | relative_url }}">Journal</a></h3>
-    <ul>
-    {% assign posts = site.posts | sort: "date" %}
+    <h3><a href="{{ '/' | relative_url }}">RubberNaut &mdash; The Thalia Journal</a></h3>
+    <input type="search" id="tocfilter" class="tocfilter" placeholder="filter the journal&hellip;" aria-label="filter the journal"/>
+    <p class="sortnote">Sorted by <strong>story date</strong> (newest first). <a href="{{ '/tags.html' | relative_url }}">browse by tag</a></p>
+    {% comment %}Group the TOC by month (yyyy-mm). Liquid has no group_by on date strings,
+    so walk the posts newest-first and open a new details block whenever the month key
+    changes. The newest month starts open; older months start closed (500 pages stay tidy).{% endcomment %}
+    {% assign posts = site.posts | sort: "date" | reverse %}
+    {% assign open_month = "" %}
     {% for post in posts %}
-      <li{% if post.url == page.url %} class="current"{% endif %}>
-        <a href="{{ post.url | relative_url }}">{{ post.date | date: "%Y-%m-%d" }} — {{ post.title }}</a>
+      {% assign mkey = post.date | date: "%Y-%m" %}
+      {% if mkey != open_month %}
+        {% if open_month != "" %}</details>{% endif %}
+        {% assign open_month = mkey %}
+        <details class="month"{% if forloop.first %} open{% endif %}>
+          <summary>{{ post.date | date: "%B %Y" }}</summary>
+          <ul>
+      {% endif %}
+      <li{% if post.url == page.url %} class="current"{% endif %} data-title="{{ post.title | escape }}">
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
       </li>
+      {% if forloop.last %}</ul></details>{% endif %}
     {% endfor %}
-    </ul>
+    <p class="tocempty" hidden>No entries match the filter.</p>
   </nav>
   {% endunless %}
   <main class="content">
 {{ content }}
   </main>
 </div>
+<script>
+// Tiny client-side filter for the TOC (no backend, works with 500+ pages).
+(function () {
+  var box = document.getElementById('tocfilter');
+  if (!box) return;
+  var items = Array.prototype.slice.call(document.querySelectorAll('.toc li'));
+  var empty = document.querySelector('.tocempty');
+  // remember which month blocks start open (the newest month) so clearing restores them
+  document.querySelectorAll('.toc details.month[open]').forEach(function (d) {
+    d.setAttribute('data-default-open', '');
+  });
+  box.addEventListener('input', function () {
+    var q = box.value.trim().toLowerCase();
+    var shown = 0;
+    items.forEach(function (li) {
+      var hit = !q || (li.getAttribute('data-title') || '').toLowerCase().indexOf(q) !== -1;
+      li.hidden = !hit;
+      if (hit) shown++;
+    });
+    // open every month block while filtering so matches are visible
+    document.querySelectorAll('.toc details.month').forEach(function (d) {
+      d.open = !!q || d.hasAttribute('data-default-open');
+    });
+    if (empty) empty.hidden = shown !== 0;
+  });
+})();
+</script>
 </body>
 </html>
