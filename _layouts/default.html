@@ -10,7 +10,7 @@
 <div class="shell">
   {% unless page.nosidebar %}
   <nav class="toc">
-    <!-- RNcom nav build: monthfolders-v3 urlpath (v01.15) -->
+    <!-- RNcom nav build: monthfolders-v3 urlpath (v01.16) -->
     <h3><a href="{{ '/' | relative_url }}">RubberNaut &mdash; The Thalia Journal</a></h3>
     <div class="filterrow">
       <input type="search" id="tocfilter" class="tocfilter" placeholder="filter titles &amp; text&hellip;" aria-label="filter the journal"/>
@@ -146,6 +146,14 @@
     months.forEach(function (d) { d.open = false; });
   });
   apply();
+  // on a STORY page: open the current entry's month folder and scroll to it,
+  // so the bold 'you are here' entry is visible (index/home pages: all closed)
+  var curLi = document.querySelector('.toc li.current');
+  if (curLi) {
+    var cm = curLi.closest('details.month');
+    if (cm) cm.open = true;
+    curLi.scrollIntoView({ block: 'nearest' });
+  }
 })();
 </script>
 </body>
