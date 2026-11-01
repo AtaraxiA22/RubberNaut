@@ -10,7 +10,7 @@
 <div class="shell">
   {% unless page.nosidebar %}
   <nav class="toc">
-    <!-- RNcom nav build: monthfolders-v2 twopass (v01.08) -->
+    <!-- RNcom nav build: monthfolders-v2 twopass (v01.09) -->
     <h3><a href="{{ '/' | relative_url }}">RubberNaut &mdash; The Thalia Journal</a></h3>
     <div class="filterrow">
       <input type="search" id="tocfilter" class="tocfilter" placeholder="filter titles &amp; text&hellip;" aria-label="filter the journal"/>
@@ -60,7 +60,7 @@
           {% assign fname = post.page_path | split: '/' | last %}
           {% assign pkey = fname | slice: 0, 7 %}
           {% if pkey == mk %}
-          <li{% if post.url == page.url %} class="current"{% endif %} data-title="{{ post.title | escape }}" data-body="{{ post.content | strip_html | escape }}">
+          <li{% if post.url == page.url %} class="current"{% endif %} data-title="{{ post.title | strip_html | replace: '"', '&quot;' }}" data-body="{{ post.content | strip_html | replace: '"', '&quot;' }}">
             <span class="mday">{{ fname | slice: 8, 2 }}</span>
             <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
           </li>
