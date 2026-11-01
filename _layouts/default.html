@@ -17,19 +17,29 @@
       <button type="button" id="tocfold" class="tocclear" title="close all month folders">fold&nbsp;all</button>
     </div>
     <p class="sortnote">Sorted by <strong>story date</strong> (newest first). <a href="{{ '/tags.html' | relative_url }}">browse by tag</a></p>
-    {% comment %}Group the TOC by month (yyyy-mm). Liquid has no group_by on date strings,
-    so walk the posts newest-first and open a new details block whenever the month key
-    changes. The newest month starts open; older months start closed (500 pages stay tidy).
-    Each entry carries data-title AND data-body so the filter can search full text too.{% endcomment %}
+    {% comment %}Group the TOC by month using the LOCAL STORY date taken from the post's
+    FILENAME (YYYY-MM-DD-...): Jekyll's post.date is UTC-shifted, which filed an
+    Oct-31 9:37pm page under November. page_path carries the filename, so slice the
+    first 7 chars for the month key and the first 10 for the label date. Entries are
+    still walked in true story order (site.posts sort: date); only the grouping key
+    uses the filename date. Each entry carries data-title AND data-body for full-text
+    filter.{% endcomment %}
     {% assign posts = site.posts | sort: "date" | reverse %}
     {% assign open_month = "" %}
     {% for post in posts %}
-      {% assign mkey = post.date | date: "%Y-%m" %}
+      {% assign fname = post.page_path | default: post.name | split: '/' | last %}
+      {% assign mkey = fname | slice: 0, 7 %}
+      {% capture fmonth %}{{ mkey }}{% endcapture %}
+      {% assign mnum = fmonth | slice: 5, 2 | plus: 0 %}
+      {% assign yr = fmonth | slice: 0, 4 %}
+      {% capture mnames %}|January|February|March|April|May|June|July|August|September|October|November|December{% endcapture %}
+      {% assign mlist = mnames | split: "|" %}
+      {% assign mname = mlist[mnum] %}
       {% if mkey != open_month %}
         {% if open_month != "" %}</details>{% endif %}
         {% assign open_month = mkey %}
         <details class="month"{% if forloop.first or post.url == page.url %} open{% endif %}>
-          <summary>{{ post.date | date: "%B %Y" }}</summary>
+          <summary>{{ mname }} {{ yr }}</summary>
           <ul>
       {% endif %}
       <li{% if post.url == page.url %} class="current"{% endif %} data-title="{{ post.title | escape }}" data-body="{{ post.content | strip_html | escape }}">
