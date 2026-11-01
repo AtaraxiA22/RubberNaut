@@ -10,7 +10,7 @@
 <div class="shell">
   {% unless page.nosidebar %}
   <nav class="toc">
-    <!-- RNcom nav build: monthfolders-v3 urlpath (v01.12) -->
+    <!-- RNcom nav build: monthfolders-v3 urlpath (v01.13) -->
     <h3><a href="{{ '/' | relative_url }}">RubberNaut &mdash; The Thalia Journal</a></h3>
     <div class="filterrow">
       <input type="search" id="tocfilter" class="tocfilter" placeholder="filter titles &amp; text&hellip;" aria-label="filter the journal"/>
@@ -94,8 +94,9 @@
   var months = Array.prototype.slice.call(document.querySelectorAll('.toc details.month'));
   var empty = document.querySelector('.tocempty');
   var qspan = document.getElementById('tocq');
+  var foldedAll = false;  // true after [fold all] until the user types a new search
   // remember which month blocks start open (the newest month AND the current page's month)
-  // so clearing/folding restores exactly those
+  // so clearing the search restores exactly those
   months.forEach(function (d) {
     if (d.open) d.setAttribute('data-default-open', '');
   });
@@ -119,6 +120,8 @@
       if (q) {
         var anyVisible = d.querySelector('li:not([hidden])') !== null;
         d.open = anyVisible;
+      } else if (foldedAll) {
+        d.open = false;          // after [fold all], an empty box keeps every folder shut
       } else {
         d.open = d.hasAttribute('data-default-open');
       }
@@ -129,19 +132,20 @@
       if (qspan) qspan.textContent = q;
     }
   }
-  box.addEventListener('input', apply);
+  box.addEventListener('input', function () { foldedAll = false; apply(); });  // typing a new search re-enables auto-open
   box.addEventListener('keydown', function (ev) {
     if (ev.key === 'Enter') { ev.preventDefault(); apply(); }
-    if (ev.key === 'Escape') { box.value = ''; apply(); }
+    if (ev.key === 'Escape') { box.value = ''; foldedAll = false; apply(); }
   });
-  if (clearBtn) clearBtn.addEventListener('click', function () { box.value = ''; apply(); box.focus(); });
+  if (clearBtn) clearBtn.addEventListener('click', function () { box.value = ''; foldedAll = false; apply(); box.focus(); });
   if (foldBtn) foldBtn.addEventListener('click', function () {
     // fold all = clear the filter AND close every month folder, including
-    // the newest and the current page's month
+    // the newest and the current page's month; they stay shut until a new search
     box.value = '';
+    foldedAll = true;
     months.forEach(function (d) { d.open = false; });
     apply();
-    months.forEach(function (d) { d.open = false; });  // apply() re-opens defaults; force shut again
+    months.forEach(function (d) { d.open = false; });
   });
   apply();
   // make sure the current page's entry is visible in the menu: open its month and scroll to it
