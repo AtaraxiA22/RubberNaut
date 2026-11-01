@@ -1,0 +1,9 @@
+---
+layout: post
+title: "2016 Jun. 21, 12:30am — The Secret Hours"
+date: 2016-06-21 00:30:00 -0700
+stamp: "Rn+2016.0621-0030"
+image: "/assets/img/Rn+2016.0621-0030.jpg"
+---
+
+Past midnight on the year's shortest sleep, the house finally dark, and this hour mine alone. The enclosure goes on by feel, eyes closed, the way the religious dress in the dark. By day I am the quiet boarder in the long skirt who keeps to herself. By night I am only breathing and rubber and moonlight, and I sit with it the way one sits with a question one has stopped being afraid of. Lorraine's lamp is out. The Compound lies silver and still. I used to think secrecy was the price of the practice. Tonight it feels more like a chrysalis — the hard shell a soft thing builds on purpose. Some hours belong to no one's calendar but mine.
