@@ -10,7 +10,7 @@
 <div class="shell">
   {% unless page.nosidebar %}
   <nav class="toc">
-    <!-- RNcom nav build: monthfolders-v3 urlpath (v01.13) -->
+    <!-- RNcom nav build: monthfolders-v3 urlpath (v01.14) -->
     <h3><a href="{{ '/' | relative_url }}">RubberNaut &mdash; The Thalia Journal</a></h3>
     <div class="filterrow">
       <input type="search" id="tocfilter" class="tocfilter" placeholder="filter titles &amp; text&hellip;" aria-label="filter the journal"/>
@@ -94,7 +94,7 @@
   var months = Array.prototype.slice.call(document.querySelectorAll('.toc details.month'));
   var empty = document.querySelector('.tocempty');
   var qspan = document.getElementById('tocq');
-  var foldedAll = false;  // true after [fold all] until the user types a new search
+  var foldedAll = false;  // true after [fold all]; cleared when the user types a new search
   // remember which month blocks start open (the newest month AND the current page's month)
   // so clearing the search restores exactly those
   months.forEach(function (d) {
@@ -114,36 +114,32 @@
       li.hidden = !hit;
       if (hit) shown++;
     });
-    // while filtering: open every month that still has a visible hit;
-    // when cleared: restore only the default-open (newest) month
-    months.forEach(function (d) {
-      if (q) {
-        var anyVisible = d.querySelector('li:not([hidden])') !== null;
-        d.open = anyVisible;
-      } else if (foldedAll) {
-        d.open = false;          // after [fold all], an empty box keeps every folder shut
-      } else {
-        d.open = d.hasAttribute('data-default-open');
-      }
-    });
+    // while filtering: open every month that still has a visible hit.
+    // on an EMPTY box: never touch the folders at all — x only clears the
+    // text so a second search can be typed; [fold all] is the only closer.
+    if (q) {
+      months.forEach(function (d) {
+        d.open = d.querySelector('li:not([hidden])') !== null;
+      });
+    }
     if (clearBtn) clearBtn.hidden = !q;
     if (empty) {
       empty.hidden = !(q && shown === 0);   // only complain when a query actually matches nothing
       if (qspan) qspan.textContent = q;
     }
   }
-  box.addEventListener('input', function () { foldedAll = false; apply(); });  // typing a new search re-enables auto-open
+  box.addEventListener('input', function () { foldedAll = false; apply(); });  // typing a new search re-enables hit-folder auto-open
   box.addEventListener('keydown', function (ev) {
     if (ev.key === 'Enter') { ev.preventDefault(); apply(); }
-    if (ev.key === 'Escape') { box.value = ''; foldedAll = false; apply(); }
+    if (ev.key === 'Escape') { box.value = ''; foldedAll = false; apply(); }  // Esc clears text only; folders untouched on empty box
   });
+  // x does ONE thing: clear the search box (so a 2nd search can be typed). It never opens or closes folders.
   if (clearBtn) clearBtn.addEventListener('click', function () { box.value = ''; foldedAll = false; apply(); box.focus(); });
   if (foldBtn) foldBtn.addEventListener('click', function () {
-    // fold all = clear the filter AND close every month folder, including
-    // the newest and the current page's month; they stay shut until a new search
+    // fold all = brute-force close EVERY month folder (also clears the box
+    // so the entries all show again); unrelated to the x button
     box.value = '';
     foldedAll = true;
-    months.forEach(function (d) { d.open = false; });
     apply();
     months.forEach(function (d) { d.open = false; });
   });
