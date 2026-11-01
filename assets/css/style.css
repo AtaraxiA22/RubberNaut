@@ -11,6 +11,8 @@ a { color: #9cf; }
 .tocclear:hover { color: #fff; border-color: #9cf; }
 #tocfold { font-size: 0.75em; padding: 5px 7px; white-space: nowrap; }
 .tocfilter:focus { outline: 1px solid #9cf; }
+.resume { color: #9cf; font-size: 0.78em; margin: 0 0 10px; }
+.resume a { color: #9cf; }
 .sortnote { color: #888; font-size: 0.75em; margin: 0 0 10px; }
 .sortnote strong { color: #ccc; }
 .toc details.month { margin: 4px 0; }

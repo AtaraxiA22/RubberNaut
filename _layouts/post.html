@@ -35,3 +35,11 @@ layout: default
   </p>
   <p class="foot">&copy; {{ site.time | date: "%Y" }} by AtaraxiA under Creative Commons BY-SA</p>
 </article>
+<script>
+// remember this page as the last one read, so the menu can offer "continue where you left off"
+try {
+  localStorage.setItem('rncom-last-url', location.pathname);
+  var h = document.querySelector('.post h1');
+  localStorage.setItem('rncom-last-title', h ? h.textContent : document.title);
+} catch (e) {}
+</script>

@@ -10,7 +10,7 @@
 <div class="shell">
   {% unless page.nosidebar %}
   <nav class="toc">
-    <!-- RNcom nav build: monthfolders-v3 urlpath (v01.14) -->
+    <!-- RNcom nav build: monthfolders-v3 urlpath (v01.15) -->
     <h3><a href="{{ '/' | relative_url }}">RubberNaut &mdash; The Thalia Journal</a></h3>
     <div class="filterrow">
       <input type="search" id="tocfilter" class="tocfilter" placeholder="filter titles &amp; text&hellip;" aria-label="filter the journal"/>
@@ -18,6 +18,7 @@
       <button type="button" id="tocfold" class="tocclear" title="close all month folders">fold&nbsp;all</button>
     </div>
     <p class="sortnote">Sorted by <strong>story date</strong> (newest first). <a href="{{ '/tags.html' | relative_url }}">browse by tag</a></p>
+    <p class="resume" id="tocresume" hidden>continue where you left off: <a id="tocresume-link" href="#"></a></p>
     {% comment %}Month folders, two-pass (robust plain Liquid): pass 1 collects the distinct
     month keys (newest first) into a |-joined string; pass 2 loops those keys and, for each,
     loops all posts printing the ones whose filename month matches. Each entry carries
@@ -35,10 +36,8 @@
       {% endunless %}
     {% endfor %}
     {% assign mlist = monthkeys | split: "|" %}
-    {% assign seen = 0 %}
     {% for mk in mlist %}
       {% if mk != "" %}
-      {% assign seen = seen | plus: 1 %}
       {% assign yr = mk | slice: 0, 4 %}
       {% assign mnum = mk | slice: 5, 2 %}
       {% case mnum %}
@@ -55,7 +54,7 @@
         {% when '11' %}{% assign mname = 'November' %}
         {% when '12' %}{% assign mname = 'December' %}
       {% endcase %}
-      <details class="month"{% if seen == 1 %} open{% endif %}>
+      <details class="month">
         <summary>{{ mname }} {{ yr }}</summary>
         <ul>
         {% for post in posts %}
@@ -86,6 +85,19 @@
 // Client-side filter for the TOC (no backend). Searches titles AND full entry text.
 // Month folders auto-open while filtering and re-close when the filter is cleared.
 (function () {
+  // "continue where you left off": each story page saves its own URL+title into the
+  // browser's local memory (localStorage — no cookies, no server, survives restarts)
+  var resume = document.getElementById('tocresume');
+  var rlink = document.getElementById('tocresume-link');
+  try {
+    var lastUrl = localStorage.getItem('rncom-last-url');
+    var lastTitle = localStorage.getItem('rncom-last-title');
+    if (resume && rlink && lastUrl) {
+      rlink.href = lastUrl;
+      rlink.textContent = lastTitle || 'last page you read';
+      resume.hidden = false;
+    }
+  } catch (e) {}
   var box = document.getElementById('tocfilter');
   if (!box) return;
   var clearBtn = document.getElementById('tocclear');
@@ -94,15 +106,6 @@
   var months = Array.prototype.slice.call(document.querySelectorAll('.toc details.month'));
   var empty = document.querySelector('.tocempty');
   var qspan = document.getElementById('tocq');
-  var foldedAll = false;  // true after [fold all]; cleared when the user types a new search
-  // remember which month blocks start open (the newest month AND the current page's month)
-  // so clearing the search restores exactly those
-  months.forEach(function (d) {
-    if (d.open) d.setAttribute('data-default-open', '');
-  });
-  var curLi = document.querySelector('.toc li.current');
-  var curMonth = curLi ? curLi.closest('details.month') : null;
-  if (curMonth) curMonth.setAttribute('data-default-open', '');
   function apply() {
     var q = box.value.trim().toLowerCase();
     var shown = 0;
@@ -128,27 +131,21 @@
       if (qspan) qspan.textContent = q;
     }
   }
-  box.addEventListener('input', function () { foldedAll = false; apply(); });  // typing a new search re-enables hit-folder auto-open
+  box.addEventListener('input', apply);  // typing a new search auto-opens the folders that have hits
   box.addEventListener('keydown', function (ev) {
     if (ev.key === 'Enter') { ev.preventDefault(); apply(); }
-    if (ev.key === 'Escape') { box.value = ''; foldedAll = false; apply(); }  // Esc clears text only; folders untouched on empty box
+    if (ev.key === 'Escape') { box.value = ''; apply(); }  // Esc clears text only; folders untouched on empty box
   });
   // x does ONE thing: clear the search box (so a 2nd search can be typed). It never opens or closes folders.
-  if (clearBtn) clearBtn.addEventListener('click', function () { box.value = ''; foldedAll = false; apply(); box.focus(); });
+  if (clearBtn) clearBtn.addEventListener('click', function () { box.value = ''; apply(); box.focus(); });
   if (foldBtn) foldBtn.addEventListener('click', function () {
     // fold all = brute-force close EVERY month folder (also clears the box
     // so the entries all show again); unrelated to the x button
     box.value = '';
-    foldedAll = true;
     apply();
     months.forEach(function (d) { d.open = false; });
   });
   apply();
-  // make sure the current page's entry is visible in the menu: open its month and scroll to it
-  if (curLi) {
-    if (curMonth) curMonth.open = true;
-    curLi.scrollIntoView({ block: 'nearest' });
-  }
 })();
 </script>
 </body>
