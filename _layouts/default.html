@@ -10,7 +10,7 @@
 <div class="shell">
   {% unless page.nosidebar %}
   <nav class="toc">
-    <!-- RNcom nav build: monthfolders-v2 twopass (v01.07) -->
+    <!-- RNcom nav build: monthfolders-v2 twopass (v01.08) -->
     <h3><a href="{{ '/' | relative_url }}">RubberNaut &mdash; The Thalia Journal</a></h3>
     <div class="filterrow">
       <input type="search" id="tocfilter" class="tocfilter" placeholder="filter titles &amp; text&hellip;" aria-label="filter the journal"/>
@@ -118,7 +118,7 @@
     });
     if (clearBtn) clearBtn.hidden = !q;
     if (empty) {
-      empty.hidden = shown !== 0;
+      empty.hidden = !(q && shown === 0);   // only complain when a query actually matches nothing
       if (qspan) qspan.textContent = q;
     }
   }
