@@ -13,5 +13,8 @@ The cellar keeps its own calendar. Down here it is always early winter.
 
 
 @26.1102-0522.29
-![](/assets/img/Rn+2016.0621-0031.02.jpg)
+![](~/RubberNaut/assets/img/Rn+2016.0621-0031.02.jpg)
+ 
+
+ 
  
