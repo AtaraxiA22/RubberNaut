@@ -8,4 +8,4 @@ tags: ["mountain", "arrival"]
 published: "2026-11-01"
 ---
 
-Nobody hands you a mountain after a certain age. The world gets polite; it
+1) Nobody hands you a mountain after a certain age. The world gets polite; it.11-0428.1@*26.1102-@)2462.81.11082-©0428.18
