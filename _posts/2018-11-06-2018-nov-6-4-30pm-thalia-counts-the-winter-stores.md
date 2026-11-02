@@ -8,4 +8,9 @@ tags: ["winter", "stores"]
 published: "2026-11-01"
 ---
 
-The cellar keeps its own calendar. Down here it is always early winter and
+The cellar keeps its own calendar. Down here it is always early winter.
+
+
+
+
+![](Rn+2016.0621-0031.02.jpg)
