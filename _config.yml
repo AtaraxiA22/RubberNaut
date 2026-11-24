@@ -1,17 +1,13 @@
-title: RubberNaut — The Thalia Journal
-description: An epistolary journal of the RubberNaut stories, in chronological order.
+title: "RUBBERNAUT: The Thalia Journals"
+description: "An Epistolary Tale of Rubber Fetish Mysticism in the Winter of Life"
 author: AtaraxiA
-rncom_version: "v02.02"  # RNcom site version — bump the second number with every change group
+rncom_version: "v03.00"
 url: "https://rubbernaut.com"
 baseurl: "/RubberNaut"
-
-theme: jekyll-theme-minimal
-plugins:
-  - jekyll-feed
+timezone: UTC
 
 defaults:
   - scope:
-      path: ""
-      type: "posts"
+      path: "_posts"
     values:
-      layout: "post"
+      layout: post

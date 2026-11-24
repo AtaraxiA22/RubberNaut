@@ -1,46 +1,70 @@
-# RubberNaut — The Thalia Journal
+# RUBBERNAUT: The Thalia Journals
 
-An epistolary journal of the RubberNaut (Thalia / Rn+) stories, published as
-single-image pages in chronological order. Live at **https://rubbernaut.com**
-(GitHub Pages, custom domain).
+An epistolary tale of rubber fetish mysticism in the winter of life, published as
+illustrated journal pages. Live at **https://rubbernaut.com** (GitHub Pages + Jekyll,
+custom domain). © 2026 by AtaraxiA — all rights reserved.
 
-© 2026 by AtaraxiA under Creative Commons BY-SA.
+## Site layout (RNcom v03)
+
+- `/` — **Title Page**: logo, title, subtitle, "By AtaraxiA", © 2026, and a
+  [Table of Contents] link.
+- `/toc.html` — **Table of Contents**: a scrollable 3-column table. Column 1 is the
+  StoryDate, column 2 the PostDate (UTC), column 3 the page titles as links (soft-wrap
+  at 80 characters). Each date column header has ↓ (newest first) and ↑ (oldest first)
+  arrows; clicking re-sorts the table live and remembers the choice in a cookie
+  (default: StoryDate, newest first). If a "last read" cookie exists, an
+  [Open My last Read] link appears above the table.
+- `/pages/<storydate>.html` — **Journal pages** (the Reader): banner with logo linking
+  back to the Title Page, [Table of contents] links top and bottom, the page content
+  with its image(s). Each visit stores the page's StoryDate (and scroll position) in
+  cookies, which is what powers [Open My last Read].
+
+The TOC is generated from `_posts/` at every site build, so adding, renaming, or
+deleting a post file automatically updates the table on the next build — there is no
+separate TOC file to edit.
+
+## Page files
+
+Each journal page is one file in `_posts/` named:
+
+    Rn+yyyy.mmdd-hhmm - Page Title.md
+
+(`Rn+` is the internal StoryNameIndicator; visitors see only `yyyy.mmdd-hhmm - Page Title`.)
+The stamp is always 4-digit year, 2-digit everything, 24-hour clock; any old seconds
+slot (`.ss`) is chopped off. The front matter carries the machine fields:
+
+    ---
+    layout: post
+    title: "Page Title"
+    date: yyyy-mm-dd hh:mm:ss +0000      # Jekyll's internal date
+    storydate: "yyyy.mmdd-hhmm"          # the StoryDate (from the filename stamp)
+    postdate: "yyyy.mmdd-hhmm"           # the PostDate, UTC, when the page was published
+    image: "/resources/Rn+yyyy.mmdd-hhmm.jpg"
+    permalink: /pages/yyyy.mmdd-hhmm.html
+    ---
+
+Images extracted from .docx pages are stored in `resources/` named
+`Rn+yyyy.mmdd-hhmm.<ext>` (minutes ticked up by 1 for each additional image:
+`-1432`, `-1433`, …).
+
+## Adding pages: RNcom_publish_docx.v01.py
+
+Run `python3 RNcom_publish_docx.v01.py` (needs PySide6, like Taggerist). It opens the
+system file picker; select one or more `.docx` files (batch or single, any order).
+Each filename must be `Rn+yyyy.mmdd-hhmm - Title.docx` — files that don't match are
+reported and skipped. For each valid file the script:
+
+1. converts the .docx to a Markdown post in `<site>/_posts/Rn+yyyy.mmdd-hhmm - Title.md`
+   (PostDate stamped as the current UTC `yyyy.mmdd-hhmm`),
+2. extracts embedded images into `<site>/resources/` named by the story stamp,
+3. logs everything in its window; the optional [Commit && push] button commits the
+   new files in the site repo so the TOC picks them up after the next Pages build.
+
+Point the script at the local clone of this repo once (the "site folder" box); it
+remembers the path in `RNcom_publish_docx.config.txt` next to the script.
 
 ## Version
 
-The site calls itself **RNcom** and shows its version in the lower-left corner of the
-left menu (`rncom_version` in `_config.yml`, currently `v01.01`). Bump the second
-number by 1 with every group of changes (e.g. `v01.02`), so you can always see at
-a glance which build is live.
-
-## About this site
-
-This site is intended to remain online permanently and unattended. It is a
-static site (GitHub Pages + Jekyll): no server, no logins, nothing to maintain.
-The journal index on the home page is generated automatically from the dated
-pages in `_posts/`, so new pages slot into the story timeline by themselves —
-no manual menu editing.
-
-## How pages are added
-
-Each story page is a file in `_posts/` named `YYYY-MM-DD-slug.md` with a small
-front-matter header (title, date, stamp, image) and the journal entry as the
-body. The matching image lives in `assets/img/` named with the `Rn+` story
-stamp, e.g. `Rn+2019.1031-2137.webp`. Commit and push — the site rebuilds.
-
-## Site structure (v2)
-
-- `home.md` — the title page at `/` (big "RubberNaut — The Thalia Journal" + [Enter the journal] button; no sidebar).
-- `journal.md` — the journal index at `/journal.html` (sidebar menu on the left).
-- `tags.md` — browse-by-tag page at `/tags.html`.
-- `_layouts/default.html` — shell with the left menu: header "RubberNaut — The Thalia Journal",
-  a filter box that searches TITLES and FULL TEXT as you type (× clears; Esc clears; a "No journal
-  entries match …" message appears when nothing matches; a 'fold all' button closes every month block),
-  entries grouped into collapsible month blocks (newest month open; month blocks auto-open while
-  filtering and re-close when the filter is cleared).
-- `_layouts/post.html` — one story page: title, stamp (+ "added to the site <date>"), image,
-  anecdote, tag links, and back / index / forward arrows at the bottom.
-- Editing pages: any plain-text editor works (the pages are simple Markdown with a
-  short header block). Just keep the `title:` value in double quotes and keep the
-  `date:` line — a broken header fails the whole site build (that happened once).
-  Tip: edit one page at a time and push, so a mistake is easy to spot.
+The site calls itself **RNcom** and shows its version in the footer of every
+page (`rncom_version` in `_config.yml`, currently `v03.00`). Bump the second number with
+every group of changes, so you can always see at a glance which build is live.

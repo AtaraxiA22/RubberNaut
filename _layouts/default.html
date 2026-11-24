@@ -1,3 +1,5 @@
+---
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,207 +9,17 @@
 <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}"/>
 </head>
 <body>
-<div class="shell">
-  {% unless page.nosidebar %}
-  <nav class="toc">
-    <!-- RNcom nav build: sorttable-v1 compactlines (v02.02) -->
-    <h3><a href="{{ '/' | relative_url }}">RubberNaut &mdash; The Thalia Journal</a></h3>
-    <div class="filterrow">
-      <input type="search" id="tocfilter" class="tocfilter" placeholder="filter titles &amp; text&hellip;" aria-label="filter the journal"/>
-      <button type="button" id="tocclear" class="tocclear" title="clear the filter" hidden>&times;</button>
-      <button type="button" id="tocfold" class="tocclear" title="close all month folders">fold&nbsp;all</button>
-    </div>
-    <table class="sorttbl" id="sorttbl">
-      <tr><th colspan="3">Sort by — displayed first:</th></tr>
-      <tr>
-        <td>Story date:</td>
-        <td><label><input type="radio" name="rncom-sort" value="story-new"/> newest</label></td>
-        <td><label><input type="radio" name="rncom-sort" value="story-old" checked/> oldest</label></td>
-      </tr>
-      <tr class="pubrow">
-        <td>Publication date:</td>
-        <td><label><input type="radio" name="rncom-sort" value="pub-new"/> newest</label></td>
-        <td><label><input type="radio" name="rncom-sort" value="pub-old"/> oldest</label></td>
-      </tr>
-    </table>
-    <p class="sortnote"><a href="{{ '/tags.html' | relative_url }}">browse tags</a></p>
-    <p class="resume" id="tocresume" hidden>continue where you left off: <a id="tocresume-link" href="#"></a></p>
-    {% comment %}Month folders, two-pass (robust plain Liquid): pass 1 collects the distinct
-    month keys (newest first) into a |-joined string; pass 2 loops those keys and, for each,
-    loops all posts printing the ones whose filename month matches. Each entry carries
-    data-title AND data-body so the filter can search full text too.{% endcomment %}
-    {% assign posts = site.posts | sort: "date" | reverse %}
-    {% assign monthkeys = "|" %}
-    {% for post in posts %}
-      {% assign fname = post.path | split: '/' | last %}
-      {% assign yr0 = fname | slice: 0, 4 %}
-      {% assign mo0 = fname | slice: 5, 2 %}
-      {% assign mkey = yr0 | append: "-" | append: mo0 %}
-      {% assign probe = "|" | append: mkey | append: "|" %}
-      {% unless monthkeys contains probe %}
-        {% assign monthkeys = monthkeys | append: mkey | append: "|" %}
-      {% endunless %}
-    {% endfor %}
-    {% assign mlist = monthkeys | split: "|" %}
-    {% for mk in mlist %}
-      {% if mk != "" %}
-      {% assign yr = mk | slice: 0, 4 %}
-      {% assign mnum = mk | slice: 5, 2 %}
-      {% case mnum %}
-        {% when '01' %}{% assign mname = 'January' %}
-        {% when '02' %}{% assign mname = 'February' %}
-        {% when '03' %}{% assign mname = 'March' %}
-        {% when '04' %}{% assign mname = 'April' %}
-        {% when '05' %}{% assign mname = 'May' %}
-        {% when '06' %}{% assign mname = 'June' %}
-        {% when '07' %}{% assign mname = 'July' %}
-        {% when '08' %}{% assign mname = 'August' %}
-        {% when '09' %}{% assign mname = 'September' %}
-        {% when '10' %}{% assign mname = 'October' %}
-        {% when '11' %}{% assign mname = 'November' %}
-        {% when '12' %}{% assign mname = 'December' %}
-      {% endcase %}
-      <details class="month">
-        <summary>{{ mname }} {{ yr }}</summary>
-        <ul>
-        {% for post in posts %}
-          {% assign fname = post.path | split: '/' | last %}
-          {% assign pyr = fname | slice: 0, 4 %}
-          {% assign pmo = fname | slice: 5, 2 %}
-          {% assign pkey = pyr | append: "-" | append: pmo %}
-          {% if pkey == mk %}
-          {% comment %}compact line: day + short month + time from the post's own date; the
-          full title stays in data-title (searchable) and as the link's hover tooltip{% endcomment %}
-          {% assign d_day = post.date | date: '%d' %}
-          {% assign d_mon = post.date | date: '%b' %}
-          {% assign d_ampm = post.date | date: '%p' | downcase %}
-          {% assign d_time = post.date | date: '%I:%M' | replace: ' 0', ' ' %}
-          {% assign d_time = d_time | remove: '^0' %}
-          {% if d_time == '12:00am' %}{% endif %}
-          <li{% if post.url == page.url %} class="current"{% endif %} data-title="{{ post.title | strip_html | replace: '"', '&quot;' }}" data-body="{{ post.content | strip_html | replace: '"', '&quot;' }}" data-story="{{ post.date | date: '%Y-%m-%d %H:%M:%S' }}" data-pub="{{ post.published | default: '' }}">
-            <a href="{{ post.url | relative_url }}" title="{{ post.title | strip_html | replace: '"', '&quot;' }}">{{ d_day }} {{ d_mon }}, {{ d_time }}{{ d_ampm }} &mdash; {{ post.title }}</a>{% if post.published %} <span class="pubdate">{{ post.published }}</span>{% endif %}
-          </li>
-          {% endif %}
-        {% endfor %}
-        </ul>
-      </details>
-      {% endif %}
-    {% endfor %}
-    <p class="tocempty" hidden>No journal entries match &ldquo;<span id="tocq"></span>&rdquo;.</p>
-    <p class="sitever">RNcom.{{ site.rncom_version }}</p>
-  </nav>
-  {% endunless %}
-  <main class="content">
+{% unless page.layout == 'title' %}
+<header class="banner">
+  <a class="banner-home" href="{{ '/' | relative_url }}">
+    <img class="banner-logo" src="{{ '/assets/img/logo.webp' | relative_url }}" alt="RUBBERNAUT logo"/>
+    <span class="banner-title">{{ site.title }}</span>
+  </a>
+</header>
+{% endunless %}
+<main class="page">
 {{ content }}
-  </main>
-</div>
-<script>
-// Client-side filter for the TOC (no backend). Searches titles AND full entry text.
-// Month folders auto-open while filtering and re-close when the filter is cleared.
-(function () {
-  // "continue where you left off": each story page saves its own URL+title into the
-  // browser's local memory (localStorage — no cookies, no server, survives restarts)
-  var resume = document.getElementById('tocresume');
-  var rlink = document.getElementById('tocresume-link');
-  try {
-    var lastUrl = localStorage.getItem('rncom-last-url');
-    var lastTitle = localStorage.getItem('rncom-last-title');
-    if (resume && rlink && lastUrl) {
-      rlink.href = lastUrl;
-      rlink.textContent = lastTitle || 'last page you read';
-      resume.hidden = false;
-    }
-  } catch (e) {}
-  var box = document.getElementById('tocfilter');
-  if (!box) return;
-  var clearBtn = document.getElementById('tocclear');
-  var foldBtn = document.getElementById('tocfold');
-  var items = Array.prototype.slice.call(document.querySelectorAll('.toc li'));
-  var months = Array.prototype.slice.call(document.querySelectorAll('.toc details.month'));
-  var empty = document.querySelector('.tocempty');
-  var qspan = document.getElementById('tocq');
-  // ---- sort table: re-order entries inside each month folder (client-side) ----
-  // data-story = story date, data-pub = publication date (from the page's own
-  // 'published' field — no GitHub lookup needed). Default: story date, oldest first.
-  function sortKey(li, mode) {
-    if (mode === 'pub-new' || mode === 'pub-old') return li.getAttribute('data-pub') || '9999';
-    return li.getAttribute('data-story') || '';
-  }
-  function applySort() {
-    var mode = 'story-old';
-    var radios = document.querySelectorAll('input[name="rncom-sort"]');
-    for (var i = 0; i < radios.length; i++) if (radios[i].checked) mode = radios[i].value;
-    var newestFirst = (mode === 'story-new' || mode === 'pub-new');
-    months.forEach(function (d) {
-      var ul = d.querySelector('ul');
-      if (!ul) return;
-      var lis = Array.prototype.slice.call(ul.querySelectorAll('li'));
-      lis.sort(function (a, b) {
-        var ka = sortKey(a, mode), kb = sortKey(b, mode);
-        return newestFirst ? (ka < kb ? 1 : ka > kb ? -1 : 0) : (ka < kb ? -1 : ka > kb ? 1 : 0);
-      });
-      lis.forEach(function (li) { ul.appendChild(li); });  // re-append in sorted order
-    });
-  }
-  var sortRadios = document.querySelectorAll('input[name="rncom-sort"]');
-  function paintSortActive() {
-    for (var i = 0; i < sortRadios.length; i++) {
-      var lab = sortRadios[i].closest('label');
-      if (lab) lab.classList.toggle('active', sortRadios[i].checked);
-    }
-  }
-  for (var i = 0; i < sortRadios.length; i++) sortRadios[i].addEventListener('change', function () { applySort(); paintSortActive(); });
-  paintSortActive();
-  function apply() {
-    var q = box.value.trim().toLowerCase();
-    var shown = 0;
-    items.forEach(function (li) {
-      // search the visible link text (always decoded correctly by the browser)
-      // plus the full entry body; data-title is kept only as a backup
-      var hay = (li.textContent + ' ' + (li.getAttribute('data-title') || '') + ' ' + (li.getAttribute('data-body') || '')).toLowerCase();
-      var hit = !q || hay.indexOf(q) !== -1;
-      li.hidden = !hit;
-      if (hit) shown++;
-    });
-    // while filtering: open every month that still has a visible hit.
-    // on an EMPTY box: never touch the folders at all — x only clears the
-    // text so a second search can be typed; [fold all] is the only closer.
-    if (q) {
-      months.forEach(function (d) {
-        d.open = d.querySelector('li:not([hidden])') !== null;
-      });
-    }
-    if (clearBtn) clearBtn.hidden = !q;
-    if (empty) {
-      empty.hidden = !(q && shown === 0);   // only complain when a query actually matches nothing
-      if (qspan) qspan.textContent = q;
-    }
-  }
-  box.addEventListener('input', apply);  // typing a new search auto-opens the folders that have hits
-  box.addEventListener('keydown', function (ev) {
-    if (ev.key === 'Enter') { ev.preventDefault(); apply(); }
-    if (ev.key === 'Escape') { box.value = ''; apply(); }  // Esc clears text only; folders untouched on empty box
-  });
-  // x does ONE thing: clear the search box (so a 2nd search can be typed). It never opens or closes folders.
-  if (clearBtn) clearBtn.addEventListener('click', function () { box.value = ''; apply(); box.focus(); });
-  if (foldBtn) foldBtn.addEventListener('click', function () {
-    // fold all = brute-force close EVERY month folder (also clears the box
-    // so the entries all show again); unrelated to the x button
-    box.value = '';
-    apply();
-    months.forEach(function (d) { d.open = false; });
-  });
-  applySort();  // initial order = story date, oldest first (the checked default)
-  apply();
-  // on a STORY page: open the current entry's month folder and scroll to it,
-  // so the bold 'you are here' entry is visible (index/home pages: all closed)
-  var curLi = document.querySelector('.toc li.current');
-  if (curLi) {
-    var cm = curLi.closest('details.month');
-    if (cm) cm.open = true;
-    curLi.scrollIntoView({ block: 'nearest' });
-  }
-})();
-</script>
+</main>
+<footer class="foot"><span class="ver">RNcom.{{ site.rncom_version }}</span></footer>
 </body>
 </html>

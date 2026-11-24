@@ -1,45 +1,40 @@
 ---
 layout: default
 ---
-<article class="post">
-  <h1>{{ page.title }}</h1>
-  <p class="meta">{{ page.stamp }}{% if page.published %} &middot; added to the site {{ page.published }}{% endif %}</p>
+<article class="post" data-storydate="{{ page.storydate }}">
+  <p class="toclink"><a href="{{ '/toc.html' | relative_url }}">[Table of contents]</a></p>
+  <h1>{{ page.storydate }} &ndash; {{ page.title }}</h1>
+  <p class="meta">posted {{ page.postdate }} UTC</p>
   {% if page.image %}
-  <p><img src="{{ page.image | relative_url }}" alt="{{ page.title }}"/></p>
+  <p class="postimg"><img src="{{ page.image | relative_url }}" alt="{{ page.title }}"/></p>
   {% endif %}
   <div class="body">{{ content }}</div>
-  {% if page.tags and page.tags.size > 0 %}
-  <p class="tagline">tags:
-    {% for tag in page.tags %}<a href="{{ '/tags.html' | relative_url }}#{{ tag | slugify }}">{{ tag }}</a>{% unless forloop.last %}, {% endunless %}{% endfor %}
-  </p>
-  {% endif %}
-  <hr/>
-  {% comment %}Prev/next arrows: walk the posts sorted by story date (oldest first, like the
-  journal timeline). Robust loop: capture prev/next urls/titles while scanning; no array
-  indexing (works on any Liquid version).{% endcomment %}
-  {% assign posts = site.posts | sort: "date" %}
-  {% assign prev_url = "" %}{% assign prev_title = "" %}{% assign next_url = "" %}{% assign next_title = "" %}
-  {% assign seen = false %}
-  {% for p in posts %}
-    {% if seen %}{% assign next_url = p.url %}{% assign next_title = p.title %}{% break %}{% endif %}
-    {% if p.url == page.url %}
-      {% assign seen = true %}
-    {% else %}
-      {% assign prev_url = p.url %}{% assign prev_title = p.title %}
-    {% endif %}
-  {% endfor %}
-  <p class="pager">
-    {% if prev_url != "" %}<a class="prev" href="{{ prev_url | relative_url }}">&larr; {{ prev_title }}</a>{% else %}<span></span>{% endif %}
-    <a href="{{ '/' | relative_url }}">index</a>
-    {% if next_url != "" %}<a class="next" href="{{ next_url | relative_url }}">{{ next_title }} &rarr;</a>{% else %}<span></span>{% endif %}
-  </p>
-  <p class="foot">&copy; {{ site.time | date: "%Y" }} by AtaraxiA under Creative Commons BY-SA</p>
+  <p class="toclink"><a href="{{ '/toc.html' | relative_url }}">[Table of contents]</a></p>
 </article>
 <script>
-// remember this page as the last one read, so the menu can offer "continue where you left off"
-try {
-  localStorage.setItem('rncom-last-url', location.pathname);
-  var h = document.querySelector('.post h1');
-  localStorage.setItem('rncom-last-title', h ? h.textContent : document.title);
-} catch (e) {}
+(function () {
+  var art = document.querySelector('article.post');
+  var sd = art ? art.getAttribute('data-storydate') : '';
+  function setCookie(name, value) {
+    document.cookie = name + '=' + encodeURIComponent(value) + ';path=/;max-age=31536000';
+  }
+  function getCookie(name) {
+    var m = new RegExp('(?:^|;\\s*)' + name + '=([^;]*)').exec(document.cookie);
+    return m ? decodeURIComponent(m[1]) : '';
+  }
+  if (sd) {
+    setCookie('rncom_last', sd);
+    var save = function () { setCookie('rncom_pos', sd + ':' + (window.scrollY || 0)); };
+    var t = null;
+    window.addEventListener('scroll', function () {
+      if (t) return;
+      t = setTimeout(function () { save(); t = null; }, 400);
+    });
+    save();
+    var p = getCookie('rncom_pos').split(':');
+    if (p[0] === sd && p[1] && !location.hash) {
+      window.addEventListener('load', function () { window.scrollTo(0, parseInt(p[1], 10) || 0); });
+    }
+  }
+})();
 </script>
