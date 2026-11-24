@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # RNcom_publish_docx v01: GUI publisher for RUBBERNAUT: The Thalia Journals — pick one or
 #   more .docx journal pages (system Open dialog, batch or single, any order), each named
-#   'Rn+yyyy.mmdd-hhmm - Title.docx'; converts them to site posts in <site>/_posts/, extracts
+#   'Rn+yyyy.mmdd-hhmm - Title.docx'; converts them to site posts in <site>/_journal/, extracts
 #   embedded images to <site>/resources/ named by the story stamp (minutes +1 per extra image,
 #   any old .ss seconds slot chopped off), and stamps postdate as the current UTC yyyy.mmdd-hhmm.
 #   Docx parsing uses only the standard library (a .docx is a zip of XML); PySide6 is used for
@@ -177,7 +177,7 @@ def liquid_guard(text):
 
 
 def build_post_md(sni, stamp, title, blocks, images, site_root, postdate):
-    """Render the _posts/*.md content. Returns (post_text, image_files) where image_files
+    """Render the _journal/*.md content. Returns (post_text, image_files) where image_files
     maps rid -> (relpath_from_site_root, filename)."""
     image_files = {}
     lines = []
@@ -221,7 +221,7 @@ def publish(docx_path, site_root, postdate=None):
     blocks, images = docx_to_markdown(docx_path)
     postdate = postdate or utc_postdate()
     post_text, image_files = build_post_md(sni, stamp, title, blocks, images, site_root, postdate)
-    posts_dir = os.path.join(site_root, "_posts")
+    posts_dir = os.path.join(site_root, "_journal")
     res_dir = os.path.join(site_root, "resources")
     os.makedirs(posts_dir, exist_ok=True)
     os.makedirs(res_dir, exist_ok=True)
@@ -346,7 +346,7 @@ class PublisherWindow(_WindowBase):
         if not site or not os.path.isdir(os.path.join(site, ".git")):
             self.say("ERROR: site folder is not a git clone.")
             return
-        for args in (["git", "add", "_posts", "resources"],
+        for args in (["git", "add", "_journal", "resources"],
                      ["git", "commit", "-m", "RNcom: publish docx pages @%s" % utc_postdate()],
                      ["git", "push"]):
             r = subprocess.run(args, cwd=site, capture_output=True, text=True)

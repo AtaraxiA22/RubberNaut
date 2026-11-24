@@ -36,8 +36,9 @@ important things to the repo.
 - Site version: the `rncom_version` setting in the site config (currently v03.00).
   Bump the second number by 1 for each group of changes, so the live build is always
   visible in the page footer.
-- Journal pages live in the posts folder as files named like
-  `Rn+yyyy.mmdd-hhmm - Page Title.md`. "Rn+" is the internal story marker and is never
+- Journal pages live in the `_journal/` collection as files named like
+  `Rn+yyyy.mmdd-hhmm - Page Title.md` (a collection, not `_posts/`, so the Rn+ names
+  are collected by Jekyll as-is). "Rn+" is the internal story marker and is never
   shown to visitors; visitors see `yyyy.mmdd-hhmm - Page Title`. Any old seconds part
   (like `-1430.05`) is chopped off. The Table of Contents page builds itself from
   these files on every site build — no manual editing of the TOC.

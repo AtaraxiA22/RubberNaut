@@ -6,8 +6,12 @@ url: "https://rubbernaut.com"
 baseurl: "/RubberNaut"
 timezone: UTC
 
+collections:
+  journal:
+    output: true
+
 defaults:
   - scope:
-      path: "_posts"
+      path: "_journal"
     values:
       layout: post

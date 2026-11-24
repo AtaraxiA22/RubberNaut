@@ -19,13 +19,15 @@ custom domain). © 2026 by AtaraxiA — all rights reserved.
   with its image(s). Each visit stores the page's StoryDate (and scroll position) in
   cookies, which is what powers [Open My last Read].
 
-The TOC is generated from `_posts/` at every site build, so adding, renaming, or
-deleting a post file automatically updates the table on the next build — there is no
-separate TOC file to edit.
+The TOC is generated from the `_journal/` collection at every site build, so adding,
+renaming, or deleting a page file automatically updates the table on the next build —
+there is no separate TOC file to edit. (The folder is `_journal/`, not `_posts/`, because
+Jekyll only auto-collects date-prefixed filenames from `_posts/`; a collection accepts
+our `Rn+…` names as-is.)
 
 ## Page files
 
-Each journal page is one file in `_posts/` named:
+Each journal page is one file in `_journal/` named:
 
     Rn+yyyy.mmdd-hhmm - Page Title.md
 
@@ -54,7 +56,7 @@ system file picker; select one or more `.docx` files (batch or single, any order
 Each filename must be `Rn+yyyy.mmdd-hhmm - Title.docx` — files that don't match are
 reported and skipped. For each valid file the script:
 
-1. converts the .docx to a Markdown post in `<site>/_posts/Rn+yyyy.mmdd-hhmm - Title.md`
+1. converts the .docx to a Markdown post in `<site>/_journal/Rn+yyyy.mmdd-hhmm - Title.md`
    (PostDate stamped as the current UTC `yyyy.mmdd-hhmm`),
 2. extracts embedded images into `<site>/resources/` named by the story stamp,
 3. logs everything in its window; the optional [Commit && push] button commits the

@@ -20,7 +20,7 @@ permalink: /toc.html
 </tr>
 </thead>
 <tbody id="tocbody">
-{% assign posts = site.posts | sort: "storydate" %}
+{% assign posts = site.journal | sort: "storydate" %}
 {% for post in posts %}
 <tr data-story="{{ post.storydate }}" data-pub="{{ post.postdate }}">
   <td class="col-story">{{ post.storydate }}</td>
