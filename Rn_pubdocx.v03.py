@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Rn_pubdocx v03: extracted images are now auto-optimized for the web (photos become JPEG
+#   quality 85, max side 1600px; PNG kept only when the image has transparency). Needs Pillow;
+#   without it, images are stored unchanged.
 # Rn_pubdocx v02: renamed from RNcom_publish_docx.v01.py to the shorter name (Chief's request).
 #   Version rule (Chief): every new iteration of this script increments the version (v02 -> v03 ...);
 #   if in doubt, increment. File name and APP_VERSION always match.
@@ -20,7 +23,7 @@ import zipfile
 import datetime
 import xml.etree.ElementTree as ET
 
-APP_VERSION = "v02"
+APP_VERSION = "v03"
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 CONFIG_FILE = os.path.join(SCRIPT_DIR, "RNcom_publish_docx.config.txt")
 
@@ -219,10 +222,47 @@ def build_post_md(sni, stamp, title, blocks, images, site_root, postdate):
     return fm + "\n" + body + "\n", image_files
 
 
+try:
+    from PIL import Image
+    import io
+    HAVE_PIL = True
+except Exception:
+    HAVE_PIL = False
+
+MAX_IMG_SIDE = 1600
+
+
+def optimize_image(ext, data):
+    """Recompress an extracted image for the web. Returns (ext, data).
+    Photos become JPEG q85 (max side MAX_IMG_SIDE); images with transparency stay optimized PNG.
+    Without Pillow, or on any decode error, returns the original unchanged."""
+    if not HAVE_PIL:
+        return ext, data
+    try:
+        im = Image.open(io.BytesIO(data))
+        im.load()
+        has_alpha = im.mode in ("RGBA", "LA", "PA") or (im.mode == "P" and "transparency" in im.info)
+        if im.width > MAX_IMG_SIDE or im.height > MAX_IMG_SIDE:
+            im.thumbnail((MAX_IMG_SIDE, MAX_IMG_SIDE), Image.LANCZOS)
+        if has_alpha:
+            if im.mode != "RGBA":
+                im = im.convert("RGBA")
+            buf = io.BytesIO()
+            im.save(buf, "PNG", optimize=True)
+            return "png", buf.getvalue()
+        im = im.convert("RGB")
+        buf = io.BytesIO()
+        im.save(buf, "JPEG", quality=85, optimize=True)
+        return "jpg", buf.getvalue()
+    except Exception:
+        return ext, data
+
+
 def publish(docx_path, site_root, postdate=None):
     """Convert one .docx into a site post + extracted images. Returns the post path."""
     sni, stamp, title = parse_docx_name(docx_path)
     blocks, images = docx_to_markdown(docx_path)
+    images = {rid: optimize_image(e, d) for rid, (e, d) in images.items()}
     postdate = postdate or utc_postdate()
     post_text, image_files = build_post_md(sni, stamp, title, blocks, images, site_root, postdate)
     posts_dir = os.path.join(site_root, "_journal")

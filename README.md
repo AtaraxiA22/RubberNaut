@@ -49,9 +49,9 @@ Images extracted from .docx pages are stored in `resources/` named
 `Rn+yyyy.mmdd-hhmm.<ext>` (minutes ticked up by 1 for each additional image:
 `-1432`, `-1433`, …).
 
-## Adding pages: Rn_pubdocx.v02.py
+## Adding pages: Rn_pubdocx.v03.py
 
-Run `python3 Rn_pubdocx.v02.py` (needs PySide6, like Taggerist). The script is named
+Run `python3 Rn_pubdocx.v03.py` (needs PySide6 and Pillow). The script is named
 `Rn_pubdocx.vxx.py` — every new iteration increments the version number (if in doubt,
 increment it). It opens the
 system file picker; select one or more `.docx` files (batch or single, any order).
@@ -60,7 +60,9 @@ reported and skipped. For each valid file the script:
 
 1. converts the .docx to a Markdown post in `<site>/_journal/Rn+yyyy.mmdd-hhmm - Title.md`
    (PostDate stamped as the current UTC `yyyy.mmdd-hhmm`),
-2. extracts embedded images into `<site>/resources/` named by the story stamp,
+2. extracts embedded images into `<site>/resources/` named by the story stamp, automatically
+   optimized for the web (photos become JPEG quality 85, max side 1600px — typically ~10x
+   smaller than a raw PNG; transparency is kept as optimized PNG),
 3. logs everything in its window; the optional [Commit && push] button commits the
    new files in the site repo so the TOC picks them up after the next Pages build.
 

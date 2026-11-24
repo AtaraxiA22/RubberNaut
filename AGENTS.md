@@ -42,7 +42,8 @@ important things to the repo.
   shown to visitors; visitors see `yyyy.mmdd-hhmm - Page Title`. Any old seconds part
   (like `-1430.05`) is chopped off. The Table of Contents page builds itself from
   these files on every site build — no manual editing of the TOC.
-- New pages are added with the publisher script `Rn_pubdocx.vxx.py` (repo root), which
+- New pages are added with the publisher script `Rn_pubdocx.v03.py` (repo root, current
+  version), which
   is a GUI app. **Standing rules for the script (user-set @26.1124):** the short name
   is `Rn_pubdocx.vxx.py`; EVERY new iteration increments the version number in both the
   file name and APP_VERSION (v02 → v03 …) — if in doubt, increment it. **If Jack ever
