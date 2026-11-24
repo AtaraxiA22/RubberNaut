@@ -58,5 +58,9 @@ important things to the repo.
 - Do the work on a branch named `vibe/<short-name>-<hash>`, push it, and open ONE draft
   PR to `main`. Update that same PR in place if anything changes — never delete the
   branch or open a replacement PR. Report the PR URL to Jack in plain words.
+- **Standing rule (user-set @26.1124): "Always push all to Main."** When Jack says to
+  push/merge (or says "always" this), mark the PR ready and merge it into `main`
+  without further prompting. Do not ask again — just do it and confirm in one
+  simple sentence.
 - End a PR body with `Closes #<number>` only if the PR resolves a tracked GitHub issue.
   (There are none — the README is the record.)
