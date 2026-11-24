@@ -1,6 +1,6 @@
 # RUBBERNAUT: The Thalia Journals
 
-An epistolary tale of rubber fetish mysticism in the winter of life, published as
+An epistolary tale of deep rubber fetishism in the winter of life, published as
 illustrated journal pages. Live at **https://rubbernaut.com** (GitHub Pages + Jekyll,
 custom domain). © 2026 by AtaraxiA — all rights reserved.
 

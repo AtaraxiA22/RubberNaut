@@ -58,7 +58,12 @@ main.page {
   padding: 1em;
 }
 
-/* Title page */
+/* Title page: bright white on deep black (the default everywhere) */
+body.titlepage {
+  background: #000;
+  color: #fff;
+}
+
 body.titlepage main.title-main {
   max-width: 60ch;
   margin: 0 auto;
