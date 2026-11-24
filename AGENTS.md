@@ -42,8 +42,11 @@ important things to the repo.
   shown to visitors; visitors see `yyyy.mmdd-hhmm - Page Title`. Any old seconds part
   (like `-1430.05`) is chopped off. The Table of Contents page builds itself from
   these files on every site build — no manual editing of the TOC.
-- New pages are added with the publisher script `RNcom_publish_docx.v01.py`, which is
-  a GUI app. **If Jack ever needs the script file, ALWAYS give the RAW download link
+- New pages are added with the publisher script `Rn_pubdocx.vxx.py` (repo root), which
+  is a GUI app. **Standing rules for the script (user-set @26.1124):** the short name
+  is `Rn_pubdocx.vxx.py`; EVERY new iteration increments the version number in both the
+  file name and APP_VERSION (v02 → v03 …) — if in doubt, increment it. **If Jack ever
+  needs the script file, ALWAYS give the RAW download link
   (raw.githubusercontent.com), never the GitHub web-page link** — a saved web page
   will not run. The full script is too big for copy/paste, so a download link is the
   only way to hand it over.

@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Rn_pubdocx v02: renamed from RNcom_publish_docx.v01.py to the shorter name (Chief's request).
+#   Version rule (Chief): every new iteration of this script increments the version (v02 -> v03 ...);
+#   if in doubt, increment. File name and APP_VERSION always match.
 # RNcom_publish_docx v01: GUI publisher for RUBBERNAUT: The Thalia Journals — pick one or
 #   more .docx journal pages (system Open dialog, batch or single, any order), each named
 #   'Rn+yyyy.mmdd-hhmm - Title.docx'; converts them to site posts in <site>/_journal/, extracts
@@ -8,6 +11,7 @@
 #   the GUI only — the conversion core (parse_docx_name / docx_to_markdown / publish) is importable
 #   and testable without it.
 # (c) 2026 by AtaraxiA — All rights reserved.
+# Rn_pubdocx v01: initial version (formerly RNcom_publish_docx.v01.py).
 
 import os
 import re
@@ -16,7 +20,7 @@ import zipfile
 import datetime
 import xml.etree.ElementTree as ET
 
-APP_VERSION = "v01"
+APP_VERSION = "v02"
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 CONFIG_FILE = os.path.join(SCRIPT_DIR, "RNcom_publish_docx.config.txt")
 
@@ -274,7 +278,7 @@ class PublisherWindow(_WindowBase):
         if not HAVE_QT:
             raise RuntimeError("PySide6 is not installed; GUI unavailable")
         super().__init__()
-        self.setWindowTitle("RNcom_publish_docx %s" % APP_VERSION)
+        self.setWindowTitle("Rn_pubdocx %s" % APP_VERSION)
         self.resize(720, 520)
         self.docx_files = []
         central = QWidget(self)

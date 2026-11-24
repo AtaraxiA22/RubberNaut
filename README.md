@@ -49,9 +49,11 @@ Images extracted from .docx pages are stored in `resources/` named
 `Rn+yyyy.mmdd-hhmm.<ext>` (minutes ticked up by 1 for each additional image:
 `-1432`, `-1433`, …).
 
-## Adding pages: RNcom_publish_docx.v01.py
+## Adding pages: Rn_pubdocx.v02.py
 
-Run `python3 RNcom_publish_docx.v01.py` (needs PySide6, like Taggerist). It opens the
+Run `python3 Rn_pubdocx.v02.py` (needs PySide6, like Taggerist). The script is named
+`Rn_pubdocx.vxx.py` — every new iteration increments the version number (if in doubt,
+increment it). It opens the
 system file picker; select one or more `.docx` files (batch or single, any order).
 Each filename must be `Rn+yyyy.mmdd-hhmm - Title.docx` — files that don't match are
 reported and skipped. For each valid file the script:
