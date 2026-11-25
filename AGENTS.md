@@ -1,5 +1,9 @@
 # AGENTS.md — Working Notes for AI Agents on RubberNaut
 
+**Terminology (user-set @26.1125):** a "PostPage" = one individual story page
+(`/pages/<storydate>.html`). "Web page" = whatever the browser shows. Use
+"PostPage" for stories; remind Jack of this if he slips back to "page of text".
+
 This file is read at the start of every session. Keep it short and durable. Sessions
 can end without warning, so anything the next agent must know should live in this
 file, the README, the git history, or a PR description — never only in chat. Commit

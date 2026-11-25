@@ -1,5 +1,11 @@
 ---
 ---
+{% assign jposts = site.journal | sort: "storydate" %}
+{% assign prev_url = "" %}{% assign prev_sd = "" %}{% assign next_url = "" %}{% assign next_sd = "" %}{% assign seen = false %}
+{% for p in jposts %}
+  {% if seen %}{% assign next_url = p.url %}{% assign next_sd = p.storydate %}{% break %}{% endif %}
+  {% if p.storydate == page.storydate %}{% assign seen = true %}{% else %}{% assign prev_url = p.url %}{% assign prev_sd = p.storydate %}{% endif %}
+{% endfor %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,11 +18,19 @@
 {% unless page.layout == 'title' %}
 <header class="banner">
   <div class="banner-inner">
-    <a class="banner-home" href="{{ '/' | relative_url }}">
-      <img class="banner-logo" src="{{ '/assets/img/logo.webp' | relative_url }}" alt="RUBBERNAUT logo"/>
-      <span class="banner-title">{{ site.title }}</span>
-    </a>
-    <a class="banner-toc" href="{{ '/toc.html' | relative_url }}">[Table of Contents]</a>
+    <div class="hdr-line hdr-title">
+      <a class="banner-home" href="{{ '/' | relative_url }}">
+        <img class="banner-logo" src="{{ '/assets/img/logo.webp' | relative_url }}" alt="RUBBERNAUT logo"/>
+        <span class="banner-title">{{ site.title }}</span>
+      </a>
+    </div>
+    <div class="hdr-line hdr-nav">
+      {% if page.storydate and prev_url != "" %}<a class="prev" href="{{ prev_url | relative_url }}">&larr; Previous</a> &middot; {% endif %}
+      <a class="banner-toc" href="{{ '/toc.html' | relative_url }}">[Table of Contents]</a>
+      {% if page.storydate and next_url != "" %} &middot; <a class="next" href="{{ next_url | relative_url }}">Next &rarr;</a>{% endif %}
+    </div>
+    {% if page.storydate %}<div class="hdr-line hdr-page">{{ page.storydate }} &ndash; {{ page.title }}</div>{% endif %}
+    <hr class="hdr-rule"/>
   </div>
 </header>
 {% endunless %}
@@ -77,7 +91,7 @@
     b.classList.toggle("pager-off", get("pager") === "off");
     b.classList.toggle("width-narrow", get("width") === "narrow");
     b.classList.toggle("width-wide", get("width") === "wide");
-    var btns = document.querySelectorAll("#settings-panel button");
+    var btns = document.querySelectorAll("#settings-panel button[data-set]");
     for (var i = 0; i < btns.length; i++) {
       var k = btns[i].getAttribute("data-set"), v = btns[i].getAttribute("data-val");
       btns[i].classList.toggle("active", get(k) === v);

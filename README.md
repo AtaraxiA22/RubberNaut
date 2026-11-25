@@ -25,8 +25,9 @@ custom domain). © 2026 by AtaraxiA — all rights reserved.
   in the reader, Standard (Verdana) or OpenDyslexic font, content width (Narrow 60ch /
   Standard 80ch / Wide 100ch), Prev/Next paging vs scroll only, and a Reset-to-defaults
   button. TOC links are not underlined (underline on hover) and each row's thumbnail
-  opens the page. Reader pages also page with the ← / → keyboard arrow keys. The title
-  page scales its logo to fit the browser window.
+  opens the PostPage. PostPages page between stories with the ← / → keyboard arrow keys,
+  and in 2-column reader mode the on-screen ← / → buttons page one screen of text at a
+  time. The title page scales its logo to fit the browser window.
 
 The TOC is generated from the `_journal/` collection at every site build, so adding,
 renaming, or deleting a page file automatically updates the table on the next build —
@@ -81,5 +82,5 @@ remembers the path in `RNcom_publish_docx.config.txt` next to the script.
 ## Version
 
 The site calls itself **RNcom** and shows its version in the footer of every
-page (`rncom_version` in `_config.yml`, currently `v03.07`). Bump the second number with
+page (`rncom_version` in `_config.yml`, currently `v03.08`). Bump the second number with
 every group of changes, so you can always see at a glance which build is live.

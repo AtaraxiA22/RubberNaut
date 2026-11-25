@@ -154,9 +154,48 @@ a:hover {
   max-width: 80ch;
   margin: 0 auto;
   padding: 0 1em;
-  display: flex;
-  align-items: center;
-  gap: 0.6em;
+}
+
+/* Frozen 4-line header: 1 big title, 2 small nav, 3 PostPage title, 4 rule */
+.hdr-line {
+  margin: 0;
+}
+
+.hdr-title {
+  font-size: 1.35em;
+  font-weight: bold;
+  margin-top: 0.2em;
+}
+
+.hdr-title .banner-home {
+  gap: 0.5em;
+}
+
+.hdr-title .banner-title {
+  font-size: 1em;
+  letter-spacing: 0.05em;
+}
+
+.hdr-nav {
+  font-size: 0.85em;
+  margin: 0.15em 0;
+}
+
+.hdr-page {
+  font-size: 1.1em;
+  font-weight: bold;
+  margin: 0.1em 0 0.2em;
+}
+
+.hdr-rule {
+  border: 0;
+  border-top: 1px solid #555;
+  margin: 0.3em 0 0;
+  width: 100%;
+}
+
+body.theme-light .hdr-rule {
+  border-top-color: #999;
 }
 
 .banner-home {
@@ -179,9 +218,7 @@ a:hover {
 }
 
 .banner-toc {
-  margin-left: auto;
   font-size: 12pt;
-  white-space: nowrap;
 }
 
 /* Main content */
@@ -395,15 +432,56 @@ article.post .toclink {
   margin: 1em auto;
 }
 
-/* Reader 2-column mode (Settings) */
+/* Reader 2-column mode (Settings): fixed-height columns that page left/right,
+   with on-screen ←/→ buttons (.screenpager) to move one screen of text */
 body.cols-2 article.post .body {
   column-count: 2;
   column-gap: 2em;
+  height: 65vh;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.screenpager {
+  display: none;
+  margin: 0.4em 0;
+}
+
+.screenpager button {
+  border: 2px solid #666;
+  border-radius: 4px;
+  background: none;
+  color: #fff;
+  font-size: 1.1em;
+  font-weight: bold;
+  padding: 0.2em 0.6em;
+  margin-right: 0.3em;
+  cursor: pointer;
+}
+
+.screenpager button:hover {
+  border-color: #f90;
+  color: #f90;
+}
+
+body.cols-2 .screenpager {
+  display: block;
+}
+
+body.pager-off .screenpager {
+  display: none;
 }
 
 @media (max-width: 700px) {
   body.cols-2 article.post .body {
     column-count: 1;
+    height: auto;
+    overflow-x: visible;
+    overflow-y: visible;
+  }
+
+  body.cols-2 .screenpager {
+    display: none;
   }
 }
 
