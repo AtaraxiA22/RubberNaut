@@ -130,6 +130,17 @@ body.theme-light .settings-panel button.active {
   border-color: #f90;
 }
 
+body.theme-light .screenpager button {
+  background: #eee;
+  color: #000;
+  border-color: #999;
+}
+
+body.theme-light .screenpager button:hover {
+  border-color: #f90;
+  color: #f90;
+}
+
 a {
   color: #fff;
 }
