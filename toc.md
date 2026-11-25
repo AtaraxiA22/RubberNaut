@@ -10,13 +10,13 @@ permalink: /toc.html
 <thead>
 <tr>
   <th class="col-thumb"></th>
-  <th class="col-story">StoryDate: (Set sort order)<br/>
-    <button type="button" class="sortbtn" data-sort="story-desc" title="newest first">&darr;</button>
-    <button type="button" class="sortbtn" data-sort="story-asc" title="oldest first">&uarr;</button>
+  <th class="col-story">StoryDate:
+    <button type="button" class="sortbtn" data-sort="story-desc" title="newest first">&#9660;</button>
+    <button type="button" class="sortbtn" data-sort="story-asc" title="oldest first">&#9650;</button>
   </th>
-  <th class="col-pub">PostDate: (Set sort order)<br/>
-    <button type="button" class="sortbtn" data-sort="pub-desc" title="newest first">&darr;</button>
-    <button type="button" class="sortbtn" data-sort="pub-asc" title="oldest first">&uarr;</button>
+  <th class="col-pub">PostDate:
+    <button type="button" class="sortbtn" data-sort="pub-desc" title="newest first">&#9660;</button>
+    <button type="button" class="sortbtn" data-sort="pub-asc" title="oldest first">&#9650;</button>
   </th>
   <th class="col-title">Title</th>
 </tr>

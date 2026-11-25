@@ -1,6 +1,8 @@
-/* OpenDyslexic (optional reader font) — loaded from the public font CDN when online;
-   falls back to the standard Verdana stack if unavailable. */
+/* OpenDyslexic (optional reader font) — loaded from public font CDNs when online
+   (two mirrors; if both are unreachable, a locally installed OpenDyslexic is used,
+   otherwise the standard Verdana stack). */
 @import url('https://cdn.jsdelivr.net/npm/@fontsource/open-dyslexic@5/index.css');
+@import url('https://unpkg.com/@fontsource/open-dyslexic@5/index.css');
 
 :root {
   color-scheme: dark;
@@ -310,13 +312,15 @@ td.col-title a {
 
 .sortbtn {
   background: none;
-  border: 1px solid #444;
+  border: 2px solid #666;
+  border-radius: 4px;
   color: #fff;
   cursor: pointer;
-  font-size: 0.85em;
+  font-size: 1.05em;
+  font-weight: bold;
   line-height: 1;
-  padding: 0.15em 0.35em;
-  margin-left: 0.2em;
+  padding: 0.2em 0.5em;
+  margin-left: 0.25em;
 }
 
 .sortbtn:hover {

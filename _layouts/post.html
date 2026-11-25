@@ -2,16 +2,16 @@
 layout: default
 ---
 {% assign jposts = site.journal | sort: "storydate" %}
-{% assign prev_url = "" %}{% assign prev_title = "" %}{% assign next_url = "" %}{% assign next_title = "" %}{% assign seen = false %}
+{% assign prev_url = "" %}{% assign prev_title = "" %}{% assign prev_sd = "" %}{% assign next_url = "" %}{% assign next_title = "" %}{% assign next_sd = "" %}{% assign seen = false %}
 {% for p in jposts %}
-  {% if seen %}{% assign next_url = p.url %}{% assign next_title = p.title %}{% break %}{% endif %}
-  {% if p.storydate == page.storydate %}{% assign seen = true %}{% else %}{% assign prev_url = p.url %}{% assign prev_title = p.title %}{% endif %}
+  {% if seen %}{% assign next_url = p.url %}{% assign next_title = p.title %}{% assign next_sd = p.storydate %}{% break %}{% endif %}
+  {% if p.storydate == page.storydate %}{% assign seen = true %}{% else %}{% assign prev_url = p.url %}{% assign prev_title = p.title %}{% assign prev_sd = p.storydate %}{% endif %}
 {% endfor %}
 <article class="post" data-storydate="{{ page.storydate }}">
   <p class="toclink"><a href="{{ '/toc.html' | relative_url }}">[Table of contents]</a></p>
   <p class="pager">
-    {% if prev_url != "" %}<a class="prev" href="{{ prev_url | relative_url }}">&larr; {{ prev_title }}</a>{% else %}<span></span>{% endif %}
-    {% if next_url != "" %}<a class="next" href="{{ next_url | relative_url }}">{{ next_title }} &rarr;</a>{% else %}<span></span>{% endif %}
+    {% if prev_url != "" %}<a class="prev" href="{{ prev_url | relative_url }}">&larr; {{ prev_sd }} {{ prev_title }}</a>{% else %}<span></span>{% endif %}
+    {% if next_url != "" %}<a class="next" href="{{ next_url | relative_url }}">{{ next_sd }} {{ next_title }} &rarr;</a>{% else %}<span></span>{% endif %}
   </p>
   <h1>{{ page.storydate }} &ndash; {{ page.title }}</h1>
   <p class="meta">posted {{ page.postdate }} UTC</p>
@@ -20,8 +20,8 @@ layout: default
   {% endif %}
   <div class="body">{{ content }}</div>
   <p class="pager">
-    {% if prev_url != "" %}<a class="prev" href="{{ prev_url | relative_url }}">&larr; {{ prev_title }}</a>{% else %}<span></span>{% endif %}
-    {% if next_url != "" %}<a class="next" href="{{ next_url | relative_url }}">{{ next_title }} &rarr;</a>{% else %}<span></span>{% endif %}
+    {% if prev_url != "" %}<a class="prev" href="{{ prev_url | relative_url }}">&larr; {{ prev_sd }} {{ prev_title }}</a>{% else %}<span></span>{% endif %}
+    {% if next_url != "" %}<a class="next" href="{{ next_url | relative_url }}">{{ next_sd }} {{ next_title }} &rarr;</a>{% else %}<span></span>{% endif %}
   </p>
   <p class="toclink"><a href="{{ '/toc.html' | relative_url }}">[Table of contents]</a></p>
 </article>
