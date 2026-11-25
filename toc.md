@@ -3,11 +3,13 @@ layout: default
 title: "Table of Contents"
 permalink: /toc.html
 ---
+<h1>Table of Contents</h1>
 <p class="lastread" hidden><a id="lastread-link" href="#">[Open My last Read]</a></p>
 <div class="toctable">
 <table class="toc" id="toctable">
 <thead>
 <tr>
+  <th class="col-thumb"></th>
   <th class="col-story">StoryDate:
     <button type="button" class="sortbtn" data-sort="story-desc" title="newest first">&darr;</button>
     <button type="button" class="sortbtn" data-sort="story-asc" title="oldest first">&uarr;</button>
@@ -23,6 +25,7 @@ permalink: /toc.html
 {% assign posts = site.journal | sort: "storydate" %}
 {% for post in posts %}
 <tr data-story="{{ post.storydate }}" data-pub="{{ post.postdate }}">
+  <td class="col-thumb">{% if post.image %}<img class="toc-thumb" src="{{ post.image | relative_url }}" alt=""/>{% endif %}</td>
   <td class="col-story">{{ post.storydate }}</td>
   <td class="col-pub">{{ post.postdate }}</td>
   <td class="col-title"><a href="{{ post.url | relative_url }}">{{ post.storydate }} - {{ post.title }}</a></td>

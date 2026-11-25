@@ -1,14 +1,28 @@
 ---
 layout: default
 ---
+{% assign jposts = site.journal | sort: "storydate" %}
+{% assign prev_url = "" %}{% assign prev_title = "" %}{% assign next_url = "" %}{% assign next_title = "" %}{% assign seen = false %}
+{% for p in jposts %}
+  {% if seen %}{% assign next_url = p.url %}{% assign next_title = p.title %}{% break %}{% endif %}
+  {% if p.url == page.url %}{% assign seen = true %}{% else %}{% assign prev_url = p.url %}{% assign prev_title = p.title %}{% endif %}
+{% endfor %}
 <article class="post" data-storydate="{{ page.storydate }}">
   <p class="toclink"><a href="{{ '/toc.html' | relative_url }}">[Table of contents]</a></p>
+  <p class="pager">
+    {% if prev_url != "" %}<a class="prev" href="{{ prev_url | relative_url }}">{{ prev_title }}</a>{% else %}<span></span>{% endif %}
+    {% if next_url != "" %}<a class="next" href="{{ next_url | relative_url }}">{{ next_title }}</a>{% else %}<span></span>{% endif %}
+  </p>
   <h1>{{ page.storydate }} &ndash; {{ page.title }}</h1>
   <p class="meta">posted {{ page.postdate }} UTC</p>
   {% if page.image %}
   <p class="postimg"><img src="{{ page.image | relative_url }}" alt="{{ page.title }}"/></p>
   {% endif %}
   <div class="body">{{ content }}</div>
+  <p class="pager">
+    {% if prev_url != "" %}<a class="prev" href="{{ prev_url | relative_url }}">{{ prev_title }}</a>{% else %}<span></span>{% endif %}
+    {% if next_url != "" %}<a class="next" href="{{ next_url | relative_url }}">{{ next_title }}</a>{% else %}<span></span>{% endif %}
+  </p>
   <p class="toclink"><a href="{{ '/toc.html' | relative_url }}">[Table of contents]</a></p>
 </article>
 <script>

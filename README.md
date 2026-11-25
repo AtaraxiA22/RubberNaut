@@ -8,16 +8,22 @@ custom domain). © 2026 by AtaraxiA — all rights reserved.
 
 - `/` — **Title Page**: logo, title, subtitle, "By AtaraxiA", © 2026, and a
   [Table of Contents] link.
-- `/toc.html` — **Table of Contents**: a scrollable 3-column table. Column 1 is the
-  StoryDate, column 2 the PostDate (UTC), column 3 the page titles as links (soft-wrap
-  at 80 characters). Each date column header has ↓ (newest first) and ↑ (oldest first)
-  arrows; clicking re-sorts the table live and remembers the choice in a cookie
-  (default: StoryDate, newest first). If a "last read" cookie exists, an
+- `/toc.html` — **Table of Contents**: a scrollable table (12px font) generated from the
+  `_journal/` collection. Each row starts with a 50×50 thumbnail of the page's first
+  image, then StoryDate, PostDate (UTC, orange), and the title link (soft-wrap at 80
+  characters, wrapped lines indented). Each date column header has ↓ (newest first) and
+  ↑ (oldest first) arrows; clicking re-sorts the table live and remembers the choice in a
+  cookie (default: StoryDate, newest first). If a "last read" cookie exists, an
   [Open My last Read] link appears above the table.
-- `/pages/<storydate>.html` — **Journal pages** (the Reader): banner with logo linking
-  back to the Title Page, [Table of contents] links top and bottom, the page content
-  with its image(s). Each visit stores the page's StoryDate (and scroll position) in
-  cookies, which is what powers [Open My last Read].
+- `/pages/<storydate>.html` — **Journal pages** (the Reader): the first image is previewed
+  at the top and again where it sits in the text; prev/next story pager top and bottom;
+  [Table of contents] links top and bottom. Each visit stores the page's StoryDate (and
+  scroll position) in cookies, which is what powers [Open My last Read].
+- **Every page except the title page** has a sticky header (logo + site title + [Table of
+  Contents] link, always visible) and a ⚙ **Settings** button at the lower right (stored
+  in localStorage): Light/Dark theme, reader font size (A−/A/A+), 1 or 2 columns in the
+  reader, Standard (Verdana) or OpenDyslexic font, and Prev/Next paging vs scroll only.
+  The title page scales its logo to fit the browser window.
 
 The TOC is generated from the `_journal/` collection at every site build, so adding,
 renaming, or deleting a page file automatically updates the table on the next build —
@@ -72,5 +78,5 @@ remembers the path in `RNcom_publish_docx.config.txt` next to the script.
 ## Version
 
 The site calls itself **RNcom** and shows its version in the footer of every
-page (`rncom_version` in `_config.yml`, currently `v03.00`). Bump the second number with
+page (`rncom_version` in `_config.yml`, currently `v03.01`). Bump the second number with
 every group of changes, so you can always see at a glance which build is live.

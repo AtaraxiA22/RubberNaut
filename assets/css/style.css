@@ -1,3 +1,7 @@
+/* OpenDyslexic (optional reader font) — loaded from the public font CDN when online;
+   falls back to the standard Verdana stack if unavailable. */
+@import url('https://cdn.jsdelivr.net/npm/@fontsource/open-dyslexic@5/index.css');
+
 :root {
   color-scheme: dark;
 }
@@ -15,8 +19,98 @@ body {
 body {
   background: #000;
   color: #fff;
-  font-family: Georgia, "Times New Roman", serif;
-  line-height: 1.55;
+  /* High-readability screen font: sans-serif, generous line-height, left-aligned */
+  font-family: Verdana, Tahoma, "Segoe UI", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+body.font-dyslexic {
+  font-family: "OpenDyslexic", Verdana, Tahoma, Arial, sans-serif;
+}
+
+/* Light theme (Settings) */
+body.theme-light {
+  background: #fff;
+  color: #000;
+  color-scheme: light;
+}
+
+body.theme-light .banner,
+body.theme-light footer.foot {
+  border-color: #ccc;
+  background: #fff;
+}
+
+body.theme-light a {
+  color: #00c;
+}
+
+body.theme-light a:hover {
+  color: #f90;
+}
+
+body.theme-light .banner-title,
+body.theme-light .biglink {
+  color: #000;
+}
+
+body.theme-light .biglink {
+  border-color: #000;
+}
+
+body.theme-light .subtitle,
+body.theme-light .copyright,
+body.theme-light footer.foot .ver,
+body.theme-light .sortbtn {
+  color: #555;
+}
+
+body.theme-light .sortbtn {
+  border-color: #999;
+}
+
+body.theme-light .sortbtn.active {
+  background: #f90;
+  border-color: #f90;
+  color: #000;
+}
+
+body.theme-light table.toc th {
+  background: #fff;
+  border-bottom-color: #999;
+}
+
+body.theme-light table.toc td {
+  border-bottom-color: #ddd;
+}
+
+body.theme-light .toctable {
+  border-color: #ccc;
+}
+
+body.theme-light .settings-btn {
+  background: #fff;
+  color: #000;
+  border-color: #999;
+}
+
+body.theme-light .settings-panel {
+  background: #fff;
+  color: #000;
+  border-color: #999;
+}
+
+body.theme-light .settings-panel button {
+  background: #eee;
+  color: #000;
+  border-color: #999;
+}
+
+body.theme-light .settings-panel button.active {
+  background: #f90;
+  color: #000;
+  border-color: #f90;
 }
 
 a {
@@ -27,10 +121,17 @@ a:hover {
   color: #f90;
 }
 
-/* Banner (every page except the title page) */
+/* Sticky banner (every page except the title page): always visible at top */
 .banner {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
   border-bottom: 1px solid #333;
-  padding: 0.6em 1em;
+  padding: 0.5em 1em;
+  background: #000;
 }
 
 .banner-home {
@@ -38,6 +139,7 @@ a:hover {
   align-items: center;
   gap: 0.6em;
   text-decoration: none;
+  color: #fff;
 }
 
 .banner-logo {
@@ -46,9 +148,15 @@ a:hover {
 }
 
 .banner-title {
-  font-size: 1.1em;
+  font-size: 1.05em;
   font-weight: bold;
   letter-spacing: 0.04em;
+}
+
+.banner-toc {
+  margin-left: auto;
+  font-size: 0.9em;
+  white-space: nowrap;
 }
 
 /* Main content */
@@ -58,33 +166,34 @@ main.page {
   padding: 1em;
 }
 
-/* Title page: bright white on deep black (the default everywhere) */
+/* Title page */
 body.titlepage {
   background: #000;
   color: #fff;
 }
 
 body.titlepage main.title-main {
-  max-width: 60ch;
+  max-width: 70ch;
   margin: 0 auto;
-  padding: 8vh 1em 2em;
+  padding: 6vh 1em 2em;
   text-align: center;
 }
 
 .title-main .logo {
-  max-width: 320px;
-  width: 80%;
+  /* enlarge to fit the browser window, keeping proportions */
+  width: clamp(260px, 55vw, 680px);
+  max-width: 92vw;
   height: auto;
 }
 
 .site-title {
-  font-size: 2em;
+  font-size: clamp(1.7em, 4.5vw, 2.6em);
   letter-spacing: 0.06em;
-  margin: 0.8em 0 0.2em;
+  margin: 0.7em 0 0.2em;
 }
 
 .subtitle {
-  font-style: italic;
+  font-size: clamp(1em, 2.2vw, 1.25em);
   color: #ccc;
 }
 
@@ -113,6 +222,10 @@ body.titlepage main.title-main {
 }
 
 /* TOC table */
+h1 {
+  font-size: 1.5em;
+}
+
 .lastread {
   margin: 0.2em 0 0.8em;
 }
@@ -126,7 +239,7 @@ body.titlepage main.title-main {
 table.toc {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.95em;
+  font-size: 12px; /* TOC font size */
 }
 
 table.toc th,
@@ -145,29 +258,39 @@ table.toc th {
   white-space: nowrap;
 }
 
+th.col-thumb,
+td.col-thumb {
+  width: 60px;
+}
+
+.toc-thumb {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  display: block;
+}
+
 th.col-story,
 td.col-story {
-  width: 17%;
+  width: 15%;
 }
 
 th.col-pub,
 td.col-pub {
-  width: 17%;
-}
-
-th.col-title,
-td.col-title {
-  width: 66%;
+  width: 15%;
 }
 
 td.col-pub {
   color: #f90;
 }
 
+/* Title column: soft-wrap at 80 chars, wrapped lines indented (hanging indent) */
 td.col-title a {
-  display: inline-block;
+  display: block;
   max-width: 80ch;
   overflow-wrap: anywhere;
+  padding-left: 1.2em;
+  text-indent: -1.2em;
 }
 
 .sortbtn {
@@ -199,6 +322,15 @@ article.post {
   padding: 1em;
 }
 
+/* Reader font size (Settings) */
+body.fs-small article.post {
+  font-size: 14px;
+}
+
+body.fs-large article.post {
+  font-size: 19px;
+}
+
 article.post h1 {
   font-size: 1.4em;
 }
@@ -212,11 +344,103 @@ article.post .toclink {
   font-size: 0.9em;
 }
 
+/* Top preview of the page's first image (also shown in the body where placed) */
 .postimg img {
   max-width: 100%;
+  max-height: 60vh;
   height: auto;
   display: block;
   margin: 1em auto;
+}
+
+/* Reader 2-column mode (Settings) */
+body.cols-2 article.post .body {
+  column-count: 2;
+  column-gap: 2em;
+}
+
+@media (max-width: 700px) {
+  body.cols-2 article.post .body {
+    column-count: 1;
+  }
+}
+
+article.post .body img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Pager (prev/next story) */
+.pager {
+  margin: 1.2em 0;
+  font-size: 0.95em;
+}
+
+.pager .prev::before {
+  content: "← ";
+}
+
+.pager .next::after {
+  content: " →";
+}
+
+body.pager-off .pager {
+  display: none;
+}
+
+/* Settings button + panel (lower right, all non-title pages) */
+.settings-btn {
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+  z-index: 20;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid #555;
+  background: #000;
+  color: #fff;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.settings-btn:hover {
+  border-color: #f90;
+  color: #f90;
+}
+
+.settings-panel {
+  position: fixed;
+  right: 12px;
+  bottom: 64px;
+  z-index: 20;
+  width: 240px;
+  border: 1px solid #555;
+  background: #000;
+  color: #fff;
+  padding: 0.8em 1em;
+  font-size: 13px;
+}
+
+.settings-panel p {
+  margin: 0.4em 0;
+}
+
+.settings-panel button {
+  background: #111;
+  color: #fff;
+  border: 1px solid #555;
+  padding: 0.15em 0.5em;
+  margin-left: 0.2em;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.settings-panel button.active {
+  background: #f90;
+  border-color: #f90;
+  color: #000;
 }
 
 /* Footer version corner */

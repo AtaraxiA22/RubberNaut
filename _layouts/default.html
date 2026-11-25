@@ -15,11 +15,79 @@
     <img class="banner-logo" src="{{ '/assets/img/logo.webp' | relative_url }}" alt="RUBBERNAUT logo"/>
     <span class="banner-title">{{ site.title }}</span>
   </a>
+  <a class="banner-toc" href="{{ '/toc.html' | relative_url }}">[Table of Contents]</a>
 </header>
 {% endunless %}
 <main class="page">
 {{ content }}
 </main>
+{% unless page.layout == 'title' %}
+<button id="settings-btn" class="settings-btn" title="Settings" aria-label="Settings">&#9881;</button>
+<div id="settings-panel" class="settings-panel" hidden>
+  <p><strong>Settings</strong></p>
+  <p>Theme:
+    <button type="button" data-set="theme" data-val="dark">Dark</button>
+    <button type="button" data-set="theme" data-val="light">Light</button>
+  </p>
+  <p>Reader font size:
+    <button type="button" data-set="fs" data-val="small">A&minus;</button>
+    <button type="button" data-set="fs" data-val="normal">A</button>
+    <button type="button" data-set="fs" data-val="large">A+</button>
+  </p>
+  <p>Reader columns:
+    <button type="button" data-set="cols" data-val="1">1</button>
+    <button type="button" data-set="cols" data-val="2">2</button>
+  </p>
+  <p>Font:
+    <button type="button" data-set="font" data-val="default">Standard</button>
+    <button type="button" data-set="font" data-val="dyslexic">OpenDyslexic</button>
+  </p>
+  <p>Paging:
+    <button type="button" data-set="pager" data-val="on">Prev/Next</button>
+    <button type="button" data-set="pager" data-val="off">Scroll only</button>
+  </p>
+</div>
+<script>
+(function () {
+  // Settings live in localStorage (client-side only, no server needed).
+  var KEYS = { theme: "rncom_theme", fs: "rncom_fs", cols: "rncom_cols", font: "rncom_font", pager: "rncom_pager" };
+  var DEFAULTS = { theme: "dark", fs: "normal", cols: "1", font: "default", pager: "on" };
+  function get(k) {
+    try { var v = localStorage.getItem(KEYS[k]); return v || DEFAULTS[k]; } catch (e) { return DEFAULTS[k]; }
+  }
+  function set(k, v) {
+    try { localStorage.setItem(KEYS[k], v); } catch (e) {}
+    apply();
+  }
+  function apply() {
+    var b = document.body;
+    b.classList.toggle("theme-light", get("theme") === "light");
+    b.classList.toggle("fs-small", get("fs") === "small");
+    b.classList.toggle("fs-large", get("fs") === "large");
+    b.classList.toggle("cols-2", get("cols") === "2");
+    b.classList.toggle("font-dyslexic", get("font") === "dyslexic");
+    b.classList.toggle("pager-off", get("pager") === "off");
+    var btns = document.querySelectorAll("#settings-panel button");
+    for (var i = 0; i < btns.length; i++) {
+      var k = btns[i].getAttribute("data-set"), v = btns[i].getAttribute("data-val");
+      btns[i].classList.toggle("active", get(k) === v);
+    }
+  }
+  var btn = document.getElementById("settings-btn");
+  var panel = document.getElementById("settings-panel");
+  if (btn && panel) {
+    btn.addEventListener("click", function () { panel.hidden = !panel.hidden; });
+    var btns = panel.querySelectorAll("button");
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener("click", function () {
+        set(this.getAttribute("data-set"), this.getAttribute("data-val"));
+      });
+    }
+  }
+  apply();
+})();
+</script>
+{% endunless %}
 <footer class="foot"><span class="ver">RNcom.{{ site.rncom_version }}</span></footer>
 </body>
 </html>
