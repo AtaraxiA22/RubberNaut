@@ -10,8 +10,8 @@ layout: default
 <article class="post" data-storydate="{{ page.storydate }}">
   <p class="toclink"><a href="{{ '/toc.html' | relative_url }}">[Table of contents]</a></p>
   <p class="pager">
-    {% if prev_url != "" %}<a class="prev" href="{{ prev_url | relative_url }}">&larr; {{ prev_sd }} {{ prev_title }}</a>{% else %}<span></span>{% endif %}
-    {% if next_url != "" %}<a class="next" href="{{ next_url | relative_url }}">{{ next_sd }} {{ next_title }} &rarr;</a>{% else %}<span></span>{% endif %}
+    {% if prev_url != "" %}<a class="prev" href="{{ prev_url | relative_url }}">&larr; Prev {{ prev_sd }}</a>{% else %}<span></span>{% endif %}
+    {% if next_url != "" %}<a class="next" href="{{ next_url | relative_url }}">Next {{ next_sd }} &rarr;</a>{% else %}<span></span>{% endif %}
   </p>
   <h1>{{ page.storydate }} &ndash; {{ page.title }}</h1>
   <p class="meta">posted {{ page.postdate }} UTC</p>
@@ -20,8 +20,8 @@ layout: default
   {% endif %}
   <div class="body">{{ content }}</div>
   <p class="pager">
-    {% if prev_url != "" %}<a class="prev" href="{{ prev_url | relative_url }}">&larr; {{ prev_sd }} {{ prev_title }}</a>{% else %}<span></span>{% endif %}
-    {% if next_url != "" %}<a class="next" href="{{ next_url | relative_url }}">{{ next_sd }} {{ next_title }} &rarr;</a>{% else %}<span></span>{% endif %}
+    {% if prev_url != "" %}<a class="prev" href="{{ prev_url | relative_url }}">&larr; Prev {{ prev_sd }}</a>{% else %}<span></span>{% endif %}
+    {% if next_url != "" %}<a class="next" href="{{ next_url | relative_url }}">Next {{ next_sd }} &rarr;</a>{% else %}<span></span>{% endif %}
   </p>
   <p class="toclink"><a href="{{ '/toc.html' | relative_url }}">[Table of contents]</a></p>
 </article>

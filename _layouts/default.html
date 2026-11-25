@@ -11,11 +11,13 @@
 <body>
 {% unless page.layout == 'title' %}
 <header class="banner">
-  <a class="banner-home" href="{{ '/' | relative_url }}">
-    <img class="banner-logo" src="{{ '/assets/img/logo.webp' | relative_url }}" alt="RUBBERNAUT logo"/>
-    <span class="banner-title">{{ site.title }}</span>
-  </a>
-  <a class="banner-toc" href="{{ '/toc.html' | relative_url }}">[Table of Contents]</a>
+  <div class="banner-inner">
+    <a class="banner-home" href="{{ '/' | relative_url }}">
+      <img class="banner-logo" src="{{ '/assets/img/logo.webp' | relative_url }}" alt="RUBBERNAUT logo"/>
+      <span class="banner-title">{{ site.title }}</span>
+    </a>
+    <a class="banner-toc" href="{{ '/toc.html' | relative_url }}">[Table of Contents]</a>
+  </div>
 </header>
 {% endunless %}
 <main class="page">

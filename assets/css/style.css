@@ -1,8 +1,22 @@
-/* OpenDyslexic (optional reader font) — loaded from public font CDNs when online
-   (two mirrors; if both are unreachable, a locally installed OpenDyslexic is used,
-   otherwise the standard Verdana stack). */
-@import url('https://cdn.jsdelivr.net/npm/@fontsource/open-dyslexic@5/index.css');
-@import url('https://unpkg.com/@fontsource/open-dyslexic@5/index.css');
+/* OpenDyslexic (optional reader font) — loaded directly from two public CDN mirrors;
+   if both are unreachable, a locally installed OpenDyslexic is used, else Verdana. */
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("https://cdn.jsdelivr.net/npm/@fontsource/open-dyslexic@5/files/open-dyslexic-latin-400-normal.woff2") format("woff2"),
+       url("https://unpkg.com/@fontsource/open-dyslexic@5/files/open-dyslexic-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("https://cdn.jsdelivr.net/npm/@fontsource/open-dyslexic@5/files/open-dyslexic-latin-700-normal.woff2") format("woff2"),
+       url("https://unpkg.com/@fontsource/open-dyslexic@5/files/open-dyslexic-latin-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
   color-scheme: dark;
@@ -123,17 +137,25 @@ a:hover {
   color: #f90;
 }
 
-/* Sticky banner (every page except the title page): always visible at top */
+/* Sticky banner (every page except the title page): always visible at top.
+   .banner-inner shares the content width of main.page/article.post, so the
+   banner title's left edge and the TOC link's right edge align with the content. */
 .banner {
   position: sticky;
   top: 0;
   z-index: 10;
+  border-bottom: 1px solid #333;
+  padding: 0.5em 0;
+  background: #000;
+}
+
+.banner-inner {
+  max-width: 80ch;
+  margin: 0 auto;
+  padding: 0 1em;
   display: flex;
   align-items: center;
   gap: 0.6em;
-  border-bottom: 1px solid #333;
-  padding: 0.5em 1em;
-  background: #000;
 }
 
 .banner-home {
@@ -391,14 +413,21 @@ article.post .body img {
 
 /* Content width (Settings) — readability research puts the ideal line at
    ~50–75 characters, so Standard = 80ch, Narrow = 60ch, Wide = 100ch */
+body.width-narrow .banner-inner,
 body.width-narrow main.page,
 body.width-narrow article.post {
   max-width: 60ch;
 }
 
+body.width-wide .banner-inner,
 body.width-wide main.page,
 body.width-wide article.post {
   max-width: 100ch;
+}
+
+/* Scroll-only mode always reverts the reader to one column */
+body.pager-off article.post .body {
+  column-count: 1 !important;
 }
 
 /* Pager (prev/next story) */
