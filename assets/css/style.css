@@ -1,7 +1,7 @@
-/* OpenDyslexic (optional reader font) — loaded directly from two public CDN mirrors;
-   if both are unreachable, a locally installed OpenDyslexic is used, else Verdana. */
+/* OpenDyslexic webfont — declared under the SEPARATE name "OpenDyslexicWeb" so it never
+   shadows a locally installed "OpenDyslexic" font when the CDN is unreachable. */
 @font-face {
-  font-family: "OpenDyslexic";
+  font-family: "OpenDyslexicWeb";
   src: url("https://cdn.jsdelivr.net/npm/@fontsource/open-dyslexic@5/files/open-dyslexic-latin-400-normal.woff2") format("woff2"),
        url("https://unpkg.com/@fontsource/open-dyslexic@5/files/open-dyslexic-latin-400-normal.woff2") format("woff2");
   font-weight: 400;
@@ -10,7 +10,7 @@
 }
 
 @font-face {
-  font-family: "OpenDyslexic";
+  font-family: "OpenDyslexicWeb";
   src: url("https://cdn.jsdelivr.net/npm/@fontsource/open-dyslexic@5/files/open-dyslexic-latin-700-normal.woff2") format("woff2"),
        url("https://unpkg.com/@fontsource/open-dyslexic@5/files/open-dyslexic-latin-700-normal.woff2") format("woff2");
   font-weight: 700;
@@ -42,7 +42,8 @@ body {
 }
 
 body.font-dyslexic {
-  font-family: "OpenDyslexic", Verdana, Tahoma, Arial, sans-serif;
+  /* locally installed OpenDyslexic first; else the webfont if the CDN is reachable; else Verdana */
+  font-family: "OpenDyslexic", "OpenDyslexicWeb", Verdana, Tahoma, Arial, sans-serif;
 }
 
 /* Light theme (Settings) */
