@@ -155,7 +155,7 @@ a:hover {
 
 .banner-toc {
   margin-left: auto;
-  font-size: 0.9em;
+  font-size: 12pt;
   white-space: nowrap;
 }
 
@@ -239,7 +239,16 @@ h1 {
 table.toc {
   width: 100%;
   border-collapse: collapse;
-  font-size: 12px; /* TOC font size */
+  font-size: 12pt; /* TOC listing font size */
+}
+
+/* TOC links: no underlining (underline on hover) */
+table.toc a {
+  text-decoration: none;
+}
+
+table.toc a:hover {
+  text-decoration: underline;
 }
 
 table.toc th,
@@ -370,18 +379,22 @@ article.post .body img {
   height: auto;
 }
 
+/* Content width (Settings) — readability research puts the ideal line at
+   ~50–75 characters, so Standard = 80ch, Narrow = 60ch, Wide = 100ch */
+body.width-narrow main.page,
+body.width-narrow article.post {
+  max-width: 60ch;
+}
+
+body.width-wide main.page,
+body.width-wide article.post {
+  max-width: 100ch;
+}
+
 /* Pager (prev/next story) */
 .pager {
   margin: 1.2em 0;
   font-size: 0.95em;
-}
-
-.pager .prev::before {
-  content: "← ";
-}
-
-.pager .next::after {
-  content: " →";
 }
 
 body.pager-off .pager {

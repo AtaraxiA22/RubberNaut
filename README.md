@@ -20,10 +20,13 @@ custom domain). © 2026 by AtaraxiA — all rights reserved.
   [Table of contents] links top and bottom. Each visit stores the page's StoryDate (and
   scroll position) in cookies, which is what powers [Open My last Read].
 - **Every page except the title page** has a sticky header (logo + site title + [Table of
-  Contents] link, always visible) and a ⚙ **Settings** button at the lower right (stored
-  in localStorage): Light/Dark theme, reader font size (A−/A/A+), 1 or 2 columns in the
-  reader, Standard (Verdana) or OpenDyslexic font, and Prev/Next paging vs scroll only.
-  The title page scales its logo to fit the browser window.
+  Contents] link at 12pt, always visible) and a ⚙ **Settings** button at the lower right
+  (stored in localStorage): Light/Dark theme, reader font size (A−/A/A+), 1 or 2 columns
+  in the reader, Standard (Verdana) or OpenDyslexic font, content width (Narrow 60ch /
+  Standard 80ch / Wide 100ch), Prev/Next paging vs scroll only, and a Reset-to-defaults
+  button. TOC links are not underlined (underline on hover) and each row's thumbnail
+  opens the page. Reader pages also page with the ← / → keyboard arrow keys. The title
+  page scales its logo to fit the browser window.
 
 The TOC is generated from the `_journal/` collection at every site build, so adding,
 renaming, or deleting a page file automatically updates the table on the next build —
@@ -78,5 +81,5 @@ remembers the path in `RNcom_publish_docx.config.txt` next to the script.
 ## Version
 
 The site calls itself **RNcom** and shows its version in the footer of every
-page (`rncom_version` in `_config.yml`, currently `v03.01`). Bump the second number with
+page (`rncom_version` in `_config.yml`, currently `v03.02`). Bump the second number with
 every group of changes, so you can always see at a glance which build is live.

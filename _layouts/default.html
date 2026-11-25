@@ -42,16 +42,22 @@
     <button type="button" data-set="font" data-val="default">Standard</button>
     <button type="button" data-set="font" data-val="dyslexic">OpenDyslexic</button>
   </p>
+  <p>Content width:
+    <button type="button" data-set="width" data-val="narrow">Narrow</button>
+    <button type="button" data-set="width" data-val="standard">Standard</button>
+    <button type="button" data-set="width" data-val="wide">Wide</button>
+  </p>
   <p>Paging:
     <button type="button" data-set="pager" data-val="on">Prev/Next</button>
     <button type="button" data-set="pager" data-val="off">Scroll only</button>
   </p>
+  <p><button type="button" id="settings-reset">Reset all to defaults</button></p>
 </div>
 <script>
 (function () {
   // Settings live in localStorage (client-side only, no server needed).
-  var KEYS = { theme: "rncom_theme", fs: "rncom_fs", cols: "rncom_cols", font: "rncom_font", pager: "rncom_pager" };
-  var DEFAULTS = { theme: "dark", fs: "normal", cols: "1", font: "default", pager: "on" };
+  var KEYS = { theme: "rncom_theme", fs: "rncom_fs", cols: "rncom_cols", font: "rncom_font", pager: "rncom_pager", width: "rncom_width" };
+  var DEFAULTS = { theme: "dark", fs: "normal", cols: "1", font: "default", pager: "on", width: "standard" };
   function get(k) {
     try { var v = localStorage.getItem(KEYS[k]); return v || DEFAULTS[k]; } catch (e) { return DEFAULTS[k]; }
   }
@@ -67,6 +73,8 @@
     b.classList.toggle("cols-2", get("cols") === "2");
     b.classList.toggle("font-dyslexic", get("font") === "dyslexic");
     b.classList.toggle("pager-off", get("pager") === "off");
+    b.classList.toggle("width-narrow", get("width") === "narrow");
+    b.classList.toggle("width-wide", get("width") === "wide");
     var btns = document.querySelectorAll("#settings-panel button");
     for (var i = 0; i < btns.length; i++) {
       var k = btns[i].getAttribute("data-set"), v = btns[i].getAttribute("data-val");
@@ -77,10 +85,19 @@
   var panel = document.getElementById("settings-panel");
   if (btn && panel) {
     btn.addEventListener("click", function () { panel.hidden = !panel.hidden; });
-    var btns = panel.querySelectorAll("button");
+    var btns = panel.querySelectorAll("button[data-set]");
     for (var i = 0; i < btns.length; i++) {
       btns[i].addEventListener("click", function () {
         set(this.getAttribute("data-set"), this.getAttribute("data-val"));
+      });
+    }
+    var reset = document.getElementById("settings-reset");
+    if (reset) {
+      reset.addEventListener("click", function () {
+        for (var k in KEYS) {
+          try { localStorage.removeItem(KEYS[k]); } catch (e) {}
+        }
+        apply();
       });
     }
   }
