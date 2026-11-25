@@ -239,6 +239,7 @@ h1 {
 table.toc {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed; /* respect column widths; let long header text wrap instead of overflowing */
   font-size: 12pt; /* TOC listing font size */
 }
 
@@ -264,12 +265,17 @@ table.toc th {
   top: 0;
   background: #000;
   border-bottom: 1px solid #555;
-  white-space: nowrap;
+  white-space: normal; /* allow the '(Set sort order)' label + arrows to wrap onto two lines */
+  overflow-wrap: anywhere;
+}
+
+table.toc td {
+  overflow-wrap: anywhere;
 }
 
 th.col-thumb,
 td.col-thumb {
-  width: 60px;
+  width: 56px;
 }
 
 .toc-thumb {
@@ -281,12 +287,12 @@ td.col-thumb {
 
 th.col-story,
 td.col-story {
-  width: 15%;
+  width: 16%;
 }
 
 th.col-pub,
 td.col-pub {
-  width: 15%;
+  width: 16%;
 }
 
 td.col-pub {
