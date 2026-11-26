@@ -91,6 +91,10 @@
     b.classList.toggle("pager-off", get("pager") === "off");
     b.classList.toggle("width-narrow", get("width") === "narrow");
     b.classList.toggle("width-wide", get("width") === "wide");
+    // A font/column/width change reflows the 2-column text; reset its horizontal
+    // scroll so no partial column is left showing on the left.
+    var rb = document.querySelector("article.post .body");
+    if (rb) { rb.scrollLeft = 0; }
     var btns = document.querySelectorAll("#settings-panel button[data-set]");
     for (var i = 0; i < btns.length; i++) {
       var k = btns[i].getAttribute("data-set"), v = btns[i].getAttribute("data-val");
