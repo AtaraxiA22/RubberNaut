@@ -678,6 +678,24 @@ body.theme-light footer.foot .ver:hover {
   color: #f90;
 }
 
+/* Hidden version number: extreme lower-left corner, colored exactly like the
+   page background so it is invisible — but select it with the mouse and the
+   selection inverts the colors, revealing the digits. */
+.ver-hidden {
+  position: fixed;
+  left: 2px;
+  bottom: 1px;
+  z-index: 1;
+  font-size: 10px;
+  line-height: 1;
+  color: #000; /* same as the dark background */
+  user-select: text;
+}
+
+body.theme-light .ver-hidden {
+  color: #fff; /* same as the light background */
+}
+
 /* Contact form (Formspree) on /contact.html */
 .contact-form {
   max-width: 60ch;
