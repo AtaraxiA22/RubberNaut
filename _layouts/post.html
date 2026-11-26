@@ -22,12 +22,16 @@ layout: default
 </article>
 <script>
 (function () {
-  // Keyboard paging between PostPages: left arrow = previous story, right arrow = next story
+  // Keyboard paging: in 2-column reader mode, left/right arrows page the screens
+  // of this PostPage; otherwise they go to the previous/next PostPage.
   var PREV_URL = "{{ prev_url | relative_url }}";
   var NEXT_URL = "{{ next_url | relative_url }}";
   document.addEventListener('keydown', function (e) {
     if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
-    if (e.key === 'ArrowLeft' && PREV_URL) { location.href = PREV_URL; }
+    var twoCol = document.body.classList.contains('cols-2') && !document.body.classList.contains('pager-off');
+    if (twoCol && e.key === 'ArrowLeft') { scr(-1); e.preventDefault(); }
+    else if (twoCol && e.key === 'ArrowRight') { scr(1); e.preventDefault(); }
+    else if (e.key === 'ArrowLeft' && PREV_URL) { location.href = PREV_URL; }
     else if (e.key === 'ArrowRight' && NEXT_URL) { location.href = NEXT_URL; }
   });
   // Screen paging within a long PostPage in 2-column mode: snap to whole
