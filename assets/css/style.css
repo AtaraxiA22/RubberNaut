@@ -79,6 +79,7 @@ body.theme-light .biglink {
 body.theme-light .subtitle,
 body.theme-light .copyright,
 body.theme-light footer.foot .ver,
+body.theme-light footer.foot .hint,
 body.theme-light .sortbtn {
   color: #555;
 }
@@ -619,8 +620,9 @@ body.pager-off .pager {
   color: #000;
 }
 
-/* Footer version corner */
+/* Footer line: version at left, centered hint at page center, same font size */
 footer.foot {
+  position: relative;
   border-top: 1px solid #333;
   margin-top: 2em;
   padding: 0.5em 1em;
@@ -628,6 +630,14 @@ footer.foot {
 }
 
 footer.foot .ver {
+  font-size: 0.8em;
+  color: #888;
+}
+
+footer.foot .hint {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 0.8em;
   color: #888;
 }
