@@ -686,7 +686,7 @@ body.theme-light footer.foot .ver:hover {
   left: 2px;
   bottom: 1px;
   z-index: 1;
-  font-size: 10px;
+  font-size: 12pt;
   line-height: 1;
   color: #000; /* same as the dark background */
   user-select: text;
