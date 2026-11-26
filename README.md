@@ -15,6 +15,11 @@ custom domain). © 2026 by AtaraxiA — all rights reserved.
   ↑ (oldest first) arrows; clicking re-sorts the table live and remembers the choice in a
   cookie (default: StoryDate, newest first). If a "last read" cookie exists, an
   [Open My last Read] link appears above the table.
+- `/contact.html` — **Contact Author** page: a small form (name / email / message) that
+  posts to a Formspree endpoint, so readers can message AtaraxiA without his email address
+  ever appearing on the site. Submissions land in the Formspree dashboard and are emailed
+  to him; after sending, the reader is forwarded to `/thanks.html`. The footer's left slot
+  links here; the RNcom version number is kept as an HTML comment in the page source.
 - `/pages/<storydate>.html` — **Journal pages** (the Reader): the first image is previewed
   at the top and again where it sits in the text; prev/next story pager top and bottom;
   [Table of contents] links top and bottom. Each visit stores the page's StoryDate (and
@@ -82,5 +87,5 @@ remembers the path in `RNcom_publish_docx.config.txt` next to the script.
 ## Version
 
 The site calls itself **RNcom** and shows its version in the footer of every
-page (`rncom_version` in `_config.yml`, currently `v03.23`). Bump the second number with
+page (`rncom_version` in `_config.yml`, currently `v03.24`). Bump the second number with
 every group of changes, so you can always see at a glance which build is live.
