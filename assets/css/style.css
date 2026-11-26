@@ -515,9 +515,14 @@ body.width-wide article.post {
   max-width: 100ch;
 }
 
-/* Scroll-only mode always reverts the reader to one column */
+/* Scroll-only mode always reverts the reader to one normal scrolling column,
+   even if 2-column mode is still selected (otherwise the text stays clipped
+   to one fixed screen with no scrollbar) */
 body.pager-off article.post .body {
   column-count: 1 !important;
+  height: auto !important;
+  overflow-x: visible !important;
+  overflow-y: visible !important;
 }
 
 /* Pager (prev/next story) */
