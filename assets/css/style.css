@@ -80,6 +80,7 @@ body.theme-light .subtitle,
 body.theme-light .copyright,
 body.theme-light footer.foot .ver,
 body.theme-light footer.foot .hint,
+body.theme-light footer.foot .sethint,
 body.theme-light .sortbtn {
   color: #555;
 }
@@ -640,4 +641,23 @@ footer.foot .hint {
   transform: translateX(-50%);
   font-size: 0.8em;
   color: #888;
+}
+
+/* Footer "Explore your settings-->" (flush right, just left of the gear icon) */
+footer.foot .sethint {
+  position: absolute;
+  right: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: inherit;
+  font-size: 0.8em;
+  color: #888;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+footer.foot .sethint:hover {
+  color: #f90;
 }

@@ -132,10 +132,15 @@
       document.dispatchEvent(new CustomEvent("rncom-reset-scroll"));
     });
   }
+  // Footer "Explore your settings-->" text: opens the Settings panel.
+  var setHint = document.getElementById("set-hint");
+  if (setHint && btn && panel) {
+    setHint.addEventListener("click", function () { panel.hidden = false; });
+  }
   apply();
 })();
 </script>
 {% endunless %}
-<footer class="foot"><span class="ver">RNcom.{{ site.rncom_version }}</span><span class="hint">Try your arrow keys.</span></footer>
+<footer class="foot"><span class="ver">RNcom.{{ site.rncom_version }}</span><span class="hint">Try your arrow keys.</span><button type="button" id="set-hint" class="sethint">Explore your settings--&gt;</button></footer>
 </body>
 </html>
