@@ -23,7 +23,8 @@ layout: default
 <script>
 (function () {
   // Keyboard paging: in 2-column reader mode, left/right arrows page the screens
-  // of this PostPage; otherwise they go to the previous/next PostPage.
+  // of this PostPage and up/down do nothing special; in single-column scroll
+  // mode, up/down scroll one full screen and left/right go to the prev/next PostPage.
   var PREV_URL = "{{ prev_url | relative_url }}";
   var NEXT_URL = "{{ next_url | relative_url }}";
   document.addEventListener('keydown', function (e) {
@@ -31,6 +32,8 @@ layout: default
     var twoCol = document.body.classList.contains('cols-2') && !document.body.classList.contains('pager-off');
     if (twoCol && e.key === 'ArrowLeft') { scr(-1); e.preventDefault(); }
     else if (twoCol && e.key === 'ArrowRight') { scr(1); e.preventDefault(); }
+    else if (!twoCol && e.key === 'ArrowUp') { window.scrollBy({ top: -Math.round(window.innerHeight * 0.9), behavior: 'smooth' }); e.preventDefault(); }
+    else if (!twoCol && e.key === 'ArrowDown') { window.scrollBy({ top: Math.round(window.innerHeight * 0.9), behavior: 'smooth' }); e.preventDefault(); }
     else if (e.key === 'ArrowLeft' && PREV_URL) { location.href = PREV_URL; }
     else if (e.key === 'ArrowRight' && NEXT_URL) { location.href = NEXT_URL; }
   });
