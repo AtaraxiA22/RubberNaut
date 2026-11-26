@@ -449,13 +449,15 @@ article.post .toclink {
   margin: 1em auto;
 }
 
-/* Reader 2-column mode (Settings): fixed-height columns that page left/right,
-   with on-screen ←/→ buttons (.screenpager) to move one screen of text */
+/* Reader 2-column mode (Settings): fixed-height columns that page left/right
+   via the on-screen ←/→ buttons (.screenpager) and the arrow keys. The native
+   horizontal scrollbar is hidden (overflow hidden still allows programmatic
+   scrolling); use the buttons/keys to move between screens. */
 body.cols-2 article.post .body {
   column-count: 2;
   column-gap: 2em;
   height: 65vh;
-  overflow-x: auto;
+  overflow-x: hidden;
   overflow-y: hidden;
 }
 
@@ -563,7 +565,7 @@ body.pager-off .pager {
   color: #f90;
 }
 
-/* Back-to-top button (lower left, all non-title pages; shown only when scrolled) */
+/* Back-to-top button (lower left, all non-title pages, always visible) */
 .to-top {
   position: fixed;
   left: 12px;
