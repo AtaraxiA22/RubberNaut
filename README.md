@@ -82,5 +82,5 @@ remembers the path in `RNcom_publish_docx.config.txt` next to the script.
 ## Version
 
 The site calls itself **RNcom** and shows its version in the footer of every
-page (`rncom_version` in `_config.yml`, currently `v03.17`). Bump the second number with
+page (`rncom_version` in `_config.yml`, currently `v03.18`). Bump the second number with
 every group of changes, so you can always see at a glance which build is live.

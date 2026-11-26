@@ -449,15 +449,14 @@ article.post .toclink {
   margin: 1em auto;
 }
 
-/* Reader 2-column mode (Settings): fixed-height columns that page left/right
-   via the on-screen ←/→ buttons (.screenpager) and the arrow keys. The native
-   horizontal scrollbar is hidden (overflow hidden still allows programmatic
-   scrolling); use the buttons/keys to move between screens. */
+/* Reader 2-column mode (Settings): fixed-height columns that page left/right,
+   with on-screen ←/→ buttons (.screenpager) to move one screen of text.
+   The native horizontal scrollbar stays visible as a "more text" cue. */
 body.cols-2 article.post .body {
   column-count: 2;
   column-gap: 2em;
   height: 65vh;
-  overflow-x: hidden;
+  overflow-x: auto;
   overflow-y: hidden;
 }
 
