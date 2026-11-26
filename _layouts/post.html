@@ -32,7 +32,9 @@ layout: default
   });
   // Screen paging within a long PostPage in 2-column mode: snap to whole
   // column boundaries so a screen never starts with a partial column.
+  // curIdx tracks the logical screen index (robust against mid-animation clicks).
   var body = document.querySelector('article.post .body');
+  var curIdx = 0;
   function colStep() {
     if (!body) return 0;
     var gap = parseFloat(getComputedStyle(body).columnGap) || 32;
@@ -43,10 +45,15 @@ layout: default
     var step = colStep();
     if (!step) return;
     var max = body.scrollWidth - body.clientWidth;
-    var target = Math.round(body.scrollLeft / step) + dir;
-    target = Math.max(0, Math.min(target, Math.floor(max / step)));
-    body.scrollTo({ left: target * step, behavior: 'smooth' });
+    var maxIdx = Math.max(0, Math.floor(max / step));
+    curIdx = Math.max(0, Math.min(curIdx + dir, maxIdx));
+    body.scrollTo({ left: curIdx * step, behavior: 'smooth' });
   }
+  // Settings changes reflow the columns — go back to the first screen.
+  document.addEventListener('rncom-reset-scroll', function () {
+    curIdx = 0;
+    if (body) body.scrollLeft = 0;
+  });
   var sp = document.getElementById('scr-prev');
   var sn = document.getElementById('scr-next');
   if (sp) sp.addEventListener('click', function () { scr(-1); });
