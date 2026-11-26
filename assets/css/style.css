@@ -514,14 +514,47 @@ article.post .body img {
    ~50–75 characters, so Standard = 80ch, Narrow = 60ch, Wide = 100ch */
 body.width-narrow .banner-inner,
 body.width-narrow main.page,
-body.width-narrow article.post {
+body.width-narrow article.post,
+body.width-narrow .foot-inner {
   max-width: 60ch;
 }
 
 body.width-wide .banner-inner,
 body.width-wide main.page,
-body.width-wide article.post {
+body.width-wide article.post,
+body.width-wide .foot-inner {
   max-width: 100ch;
+}
+
+/* Floating buttons (gear, back-to-top) hang just outside the content column's
+   vertical borders; on narrow windows they fall back to the viewport edge.
+   The buttons use font-size 16px so the ch/em in these calcs match the body
+   font that sizes the 80ch content column (the glyph span is 22px). */
+.settings-btn,
+.settings-panel {
+  right: max(12px, calc(50% - 40ch + 1em - 48px));
+}
+
+.to-top {
+  left: max(12px, calc(50% - 40ch + 1em - 48px));
+}
+
+body.width-narrow .settings-btn,
+body.width-narrow .settings-panel {
+  right: max(12px, calc(50% - 30ch + 1em - 48px));
+}
+
+body.width-narrow .to-top {
+  left: max(12px, calc(50% - 30ch + 1em - 48px));
+}
+
+body.width-wide .settings-btn,
+body.width-wide .settings-panel {
+  right: max(12px, calc(50% - 50ch + 1em - 48px));
+}
+
+body.width-wide .to-top {
+  left: max(12px, calc(50% - 50ch + 1em - 48px));
 }
 
 /* Scroll-only mode always reverts the reader to one normal scrolling column,
@@ -547,7 +580,6 @@ body.pager-off .pager {
 /* Settings button + panel (lower right, all non-title pages) */
 .settings-btn {
   position: fixed;
-  right: 12px;
   bottom: 12px;
   z-index: 20;
   width: 44px;
@@ -556,7 +588,7 @@ body.pager-off .pager {
   border: 1px solid #555;
   background: #000;
   color: #fff;
-  font-size: 22px;
+  font-size: 16px;
   line-height: 1;
   cursor: pointer;
 }
@@ -569,7 +601,6 @@ body.pager-off .pager {
 /* Back-to-top button (lower left, all non-title pages, always visible) */
 .to-top {
   position: fixed;
-  left: 12px;
   bottom: 12px;
   z-index: 20;
   width: 44px;
@@ -578,9 +609,15 @@ body.pager-off .pager {
   border: 1px solid #555;
   background: #000;
   color: #fff;
-  font-size: 22px;
+  font-size: 16px;
   line-height: 1;
   cursor: pointer;
+}
+
+.settings-btn .glyph,
+.to-top .glyph {
+  font-size: 22px;
+  line-height: 1;
 }
 
 .to-top:hover {
@@ -590,7 +627,6 @@ body.pager-off .pager {
 
 .settings-panel {
   position: fixed;
-  right: 12px;
   bottom: 64px;
   z-index: 20;
   width: 240px;
@@ -598,11 +634,12 @@ body.pager-off .pager {
   background: #000;
   color: #fff;
   padding: 0.8em 1em;
-  font-size: 13px;
+  font-size: 16px;
 }
 
 .settings-panel p {
   margin: 0.4em 0;
+  font-size: 13px;
 }
 
 .settings-panel button {
@@ -621,13 +658,21 @@ body.pager-off .pager {
   color: #000;
 }
 
-/* Footer line: version at left, centered hint at page center, same font size */
+/* Footer line, aligned to the content column via .foot-inner (same max-width
+   and padding as .banner-inner): version at left, hint centered, settings
+   link flush right — all the same small font size */
 footer.foot {
   position: relative;
   border-top: 1px solid #333;
   margin-top: 2em;
-  padding: 0.5em 1em;
-  text-align: left;
+  padding: 0.5em 0;
+}
+
+.foot-inner {
+  position: relative;
+  max-width: 80ch;
+  margin: 0 auto;
+  padding: 0 1em;
 }
 
 footer.foot .ver {
@@ -643,10 +688,10 @@ footer.foot .hint {
   color: #888;
 }
 
-/* Footer "Explore your settings-->" (flush right, just left of the gear icon) */
+/* Footer "Explore your settings-->" (flush right at the text border) */
 footer.foot .sethint {
   position: absolute;
-  right: 60px;
+  right: 1em;
   top: 50%;
   transform: translateY(-50%);
   font-family: inherit;
@@ -660,4 +705,12 @@ footer.foot .sethint {
 
 footer.foot .sethint:hover {
   color: #f90;
+}
+
+/* On narrow windows the gear falls back to the viewport corner; keep the
+   settings link clear of it */
+@media (max-width: 800px) {
+  footer.foot .sethint {
+    right: 60px;
+  }
 }

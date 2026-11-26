@@ -38,8 +38,8 @@
 {{ content }}
 </main>
 {% unless page.layout == 'title' %}
-<button id="to-top" class="to-top" title="Back to top" aria-label="Back to top">&#8593;</button>
-<button id="settings-btn" class="settings-btn" title="Settings" aria-label="Settings">&#9881;</button>
+<button id="to-top" class="to-top" title="Back to top" aria-label="Back to top"><span class="glyph">&#8593;</span></button>
+<button id="settings-btn" class="settings-btn" title="Settings" aria-label="Settings"><span class="glyph">&#9881;</span></button>
 <div id="settings-panel" class="settings-panel" hidden>
   <p><strong>Settings</strong></p>
   <p>Theme:
@@ -141,6 +141,6 @@
 })();
 </script>
 {% endunless %}
-<footer class="foot"><span class="ver">RNcom.{{ site.rncom_version }}</span><span class="hint">Try your arrow keys.</span><button type="button" id="set-hint" class="sethint">Explore your settings--&gt;</button></footer>
+<footer class="foot"><div class="foot-inner"><span class="ver">RNcom.{{ site.rncom_version }}</span><span class="hint">Try your arrow keys.</span><button type="button" id="set-hint" class="sethint">Explore your settings--&gt;</button></div></footer>
 </body>
 </html>
