@@ -65,6 +65,12 @@ layout: default
   var sn = document.getElementById('scr-next');
   if (sp) sp.addEventListener('click', function () { scr(-1); });
   if (sn) sn.addEventListener('click', function () { scr(1); });
+  // Click any story image (top preview or in-text) to open it full-size in a new window
+  var imgs = document.querySelectorAll('article.post .body img, .postimg img');
+  for (var i = 0; i < imgs.length; i++) {
+    imgs[i].style.cursor = 'zoom-in';
+    imgs[i].addEventListener('click', function () { window.open(this.src, '_blank'); });
+  }
   var art = document.querySelector('article.post');
   var sd = art ? art.getAttribute('data-storydate') : '';
   function setCookie(name, value) {
