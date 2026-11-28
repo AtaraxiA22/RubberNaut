@@ -6,6 +6,10 @@ url: "https://rubbernaut.com"
 baseurl: "/RubberNaut"
 timezone: UTC
 
+# docs/ holds repo records (e.g. the @26.1124 build letter), not website pages
+exclude:
+  - "docs/"
+
 collections:
   journal:
     output: true
